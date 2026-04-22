@@ -835,7 +835,7 @@ a.view-link:hover { text-decoration: underline; }
     <h3 class="ct">Top 10 campaigns by spend</h3>
     <p class="cs">Native Meta Ads Manager export · Mar 2023 – Apr 2026</p>
     <table class="dt" style="margin-top:0.75rem">
-      <thead><tr><th>Campaign</th><th>Objective</th><th>Spend (USD)</th><th>Impressions</th><th>Results</th><th>CPR</th><th>Status</th></tr></thead>
+      <thead><tr><th>Campaign &amp; Ad Creatives</th><th>Objective</th><th>Spend (USD)</th><th>Impressions</th><th>Results</th><th>CPR</th></tr></thead>
       <tbody id="ads-campaigns-table"></tbody>
     </table>
   </div>
@@ -2540,17 +2540,22 @@ new Chart(document.getElementById('adsObjChart'),{type:'doughnut',data:{
 },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'right',labels:{color:lc,font:{size:10},usePointStyle:true,pointStyleWidth:8,padding:10}}}}});
 
 const objShort={'actions:link_click':'Link Click','actions:post_engagement':'Post Engagement','video_thruplay_watched_actions':'Video ThruPlay','reach':'Reach','actions:omni_landing_page_view':'Landing Page','actions:onsite_conversion.messaging_conversation_started_7d':'Messaging','actions:like':'Like'};
-document.getElementById('ads-campaigns-table').innerHTML=AUD.ads.top_campaigns.map(c=>{
-  const st=c.status==='active'?'high':c.status==='completed'?'med':'low';
-  const nm=c.name.length>55?c.name.substring(0,55)+'…':c.name;
+// ── Enriched top campaigns data (with ad creative names)
+const TOP10_CAMPS = [{"name":"iDplus/ campaign/ 2025","content":"iDplus/ campaign/ 2025 — iDplus/ duaa video 2, iDplus/ post 4, iDplus/ How to video","objective":"Link Click","spend":999.8,"impressions":3979796,"reach":722161,"results":36706,"cpr":0.027,"year":2025},{"name":"iDplus Videos 1/2026","content":"iDplus Videos 1/2026 — iDplus Videos/ Update idplus, iDplus Videos/ How to, iDplus Videos/ why/ 1","objective":"Landing Page View","spend":500.0,"impressions":1474212,"reach":411570,"results":26098,"cpr":0.019,"year":2026},{"name":"Cashless Law/PMA","content":"Cashless Law/PMA — Cashless Law Post/ CTA, Gov Video","objective":"Post Engagement","spend":249.97,"impressions":489809,"reach":175578,"results":15629,"cpr":0.016,"year":2025},{"name":"ترويج فيديو التوعية بالاحتيال المالي","content":"ترويج فيديو التوعية بالاحتيال المالي — ترويج فيديو التوعية بالاحتيال المالي","objective":"Reach","spend":215.71,"impressions":1500310,"reach":967048,"results":967048,"cpr":0.223,"year":2024},{"name":"مشروعك جاهز للحصول على تمويل؟ تعرفوا معنا على...","content":"مشروعك جاهز للحصول على تمويل؟ تعرفوا معنا على...","objective":"Video ThruPlay","spend":200.0,"impressions":251571,"reach":64879,"results":200462,"cpr":0.001,"year":2023},{"name":"بدك طريقة سريعة وموثوقة للتحقق من صحة الشيكات؟","content":"بدك طريقة سريعة وموثوقة للتحقق من صحة الشيكات؟","objective":"Link Click","spend":200.0,"impressions":508807,"reach":217230,"results":22898,"cpr":0.009,"year":2023},{"name":"Gaza / Pma Gov  Post","content":"Gaza / Pma Gov  Post — Gaza / Pma Gov  Post","objective":"Reach","spend":100.0,"impressions":869860,"reach":607769,"results":607769,"cpr":0.165,"year":2025},{"name":"اللقاء الدولي لبحث أزمة تكدس الشيكل والمقاصة","content":"اللقاء الدولي لبحث أزمة تكدس الشيكل والمقاصة — اللقاء الدولي لبحث أزمة تكدس الشيكل والمقاصةfacebook","objective":"Reach","spend":100.0,"impressions":988221,"reach":355506,"results":355506,"cpr":0.281,"year":2026},{"name":"#الكاش_بيكلفك","content":"#الكاش_بيكلفك","objective":"Video ThruPlay","spend":100.0,"impressions":81131,"reach":47813,"results":61476,"cpr":0.002,"year":2023},{"name":"مشروعك جاهز للحصول على تمويل؟ تعرفوا معنا على...","content":"مشروعك جاهز للحصول على تمويل؟ تعرفوا معنا على...","objective":"Video ThruPlay","spend":100.0,"impressions":336012,"reach":67748,"results":17005,"cpr":0.006,"year":2023}];
+document.getElementById('ads-campaigns-table').innerHTML=TOP10_CAMPS.map((c,i)=>{
+  // Build the content cell: campaign name on top, ad creatives below
+  const nm = c.name;
+  const creatives = c.content !== c.name ? c.content.replace(nm+' — ','') : '';
+  const creativeParts = creatives ? creatives.split(', ').slice(0,3) : [];
+  const nameCell = `<div style="font-size:0.8rem;font-weight:600;color:var(--navy);direction:rtl;text-align:right;line-height:1.4;margin-bottom:${creativeParts.length?'0.3rem':'0'}">${nm}</div>
+${creativeParts.length ? '<div style="display:flex;flex-wrap:wrap;gap:0.3rem">'+creativeParts.map(cr=>`<span style="font-size:0.64rem;background:#f1f5f9;color:#475569;padding:1px 6px;border-radius:3px;font-family:\'DM Mono\',monospace;white-space:nowrap">${cr.trim()}</span>`).join('')+'</div>' : ''}`;
   return`<tr>
-    <td style="max-width:220px;font-size:0.78rem">${nm}</td>
+    <td style="max-width:260px">${nameCell}</td>
     <td><span style="font-size:0.68rem;color:var(--muted)">${objShort[c.objective]||c.objective}</span></td>
     <td class="num" style="font-weight:600">$${c.spend.toFixed(2)}</td>
     <td class="num">${c.impressions.toLocaleString()}</td>
     <td class="num">${c.results.toLocaleString()}</td>
     <td class="num">$${c.cpr.toFixed(3)}</td>
-    <td><span class="tag ${st}">${c.status}</span></td>
   </tr>`;
 }).join('');
 
