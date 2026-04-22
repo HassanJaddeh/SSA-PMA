@@ -322,6 +322,10 @@ a.view-link:hover { text-decoration: underline; }
       <span class="ni-dot" style="background:#ff0000"></span> YouTube
     </a>
 
+    <a class="nav-item" data-section="mobileapp" onclick="showSection('mobileapp',this)">
+      <span class="ni-dot" style="background:#10b981"></span> Mobile App
+    </a>
+
     <div class="nav-section">Analysis</div>
     <a class="nav-item" data-section="audience" onclick="showSection('audience',this)">
       <span class="ni-dot" style="background:#f97316"></span> Audience
@@ -1052,6 +1056,171 @@ a.view-link:hover { text-decoration: underline; }
   </div>
 </div>
 
+
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- SECTION: MOBILE APP -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div id="sec-mobileapp" class="section">
+  <div class="section-label">Platform Analysis · Mobile App</div>
+  <h2 class="section-title">PMA Mobile App — Google Play assessment</h2>
+  <p class="section-intro">Official PMA Android app (<strong>ps.mobileDT.pma</strong>) assessed via Google Play Console data captured April 14, 2026. The app is technically stable — crash and ANR rates are well below Google thresholds — but faces a serious reputational challenge with a 2.4★ public rating driven by login failures, barcode scanner crashes, and slow release cadence. Data covers last 28 days for vitals and acquisition; all-time for install base and ratings.</p>
+
+  <!-- OVERALL GRADE BANNER -->
+  <div style="background:linear-gradient(135deg,#0f2a4a,#1a5fa8);border-radius:12px;padding:1.5rem 2rem;margin-bottom:1.75rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap">
+    <div style="text-align:center;min-width:100px">
+      <div style="font-family:'DM Serif Display',serif;font-size:3.5rem;color:white;line-height:1">C+</div>
+      <div style="font-family:'DM Mono',monospace;font-size:0.62rem;color:rgba(255,255,255,0.5);letter-spacing:0.1em;text-transform:uppercase;margin-top:0.3rem">Overall grade</div>
+    </div>
+    <div style="width:1px;height:60px;background:rgba(255,255,255,0.15);flex-shrink:0"></div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;flex:1;min-width:300px">
+      <div style="text-align:center"><div style="font-family:'DM Serif Display',serif;font-size:1.6rem;color:#4ade80">A</div><div style="font-size:0.65rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.06em">Stability</div></div>
+      <div style="text-align:center"><div style="font-family:'DM Serif Display',serif;font-size:1.6rem;color:#f87171">D</div><div style="font-size:0.65rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.06em">User Satisfaction</div></div>
+      <div style="text-align:center"><div style="font-family:'DM Serif Display',serif;font-size:1.6rem;color:#fbbf24">C</div><div style="font-size:0.65rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.06em">Growth</div></div>
+      <div style="text-align:center"><div style="font-family:'DM Serif Display',serif;font-size:1.6rem;color:#7ec8f4">B</div><div style="font-size:0.65rem;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.06em">Performance (UX)</div></div>
+    </div>
+    <div style="width:1px;height:60px;background:rgba(255,255,255,0.15);flex-shrink:0"></div>
+    <div style="font-size:0.8rem;color:rgba(255,255,255,0.6);max-width:260px;line-height:1.6"><strong style="color:white">Functional but underperforming.</strong> The app works reliably at a technical level but fails users at the experience layer — rating, onboarding, and retention all require urgent attention.</div>
+  </div>
+
+  <!-- KPI STRIP -->
+  <div class="kpi-strip" style="grid-template-columns:repeat(5,1fr)">
+    <div class="kpi-cell"><div class="kv">25,400</div><div class="kl">Active installed devices</div><div class="kd up">↑ 80.6% retention of install base</div></div>
+    <div class="kpi-cell"><div class="kv r">2.4 ★</div><div class="kl">Public rating (335 reviews)</div><div class="kd dn">↓ Target 4.0+ · 57% are 1★</div></div>
+    <div class="kpi-cell"><div class="kv w">10,100</div><div class="kl">Monthly Active Users (MAU)</div><div class="kd dn">↓ -2% vs prior 28 days</div></div>
+    <div class="kpi-cell"><div class="kv g">0.04%</div><div class="kl">Crash rate</div><div class="kd up">↑ 27× below Google threshold</div></div>
+    <div class="kpi-cell"><div class="kv r">41</div><div class="kl">7-day retention (cohort)</div><div class="kd dn">↓ -35% vs prior period — critical</div></div>
+  </div>
+
+  <!-- ROW 1: Install base + Acquisition -->
+  <div class="g2" style="margin-bottom:1.25rem">
+    <div class="card">
+      <h3 class="ct">Install base overview</h3>
+      <p class="cs">Current installed audience vs lifetime downloads · Google Play Console</p>
+      <div class="chart-wrap" style="height:200px"><canvas id="appInstallChart"></canvas></div>
+      <div class="ins">50,000+ lifetime downloads vs 25,400 currently installed implies <strong>~50% lifetime churn</strong>. The 19,000 active installs (80.6% of installed base) indicates good retention among those who have kept the app — the problem is earlier in the funnel (discovery and first-run experience).</div>
+    </div>
+    <div class="card">
+      <h3 class="ct">28-day acquisition & engagement funnel</h3>
+      <p class="cs">Device acquisitions → first opens → MAU → 7-day retention</p>
+      <div class="chart-wrap" style="height:200px"><canvas id="appFunnelChart"></canvas></div>
+      <div class="ins"><strong>Critical funnel leak:</strong> 2,170 new devices acquired but only 963 first opens (44% open rate). Only 10,100 of 25,400 installed devices are monthly active — a 40% MAU/install ratio. 7-day retention of 41 users is the most alarming metric — dropped 35% vs prior period.</div>
+    </div>
+  </div>
+
+  <!-- ROW 2: Ratings + Review themes -->
+  <div class="g2" style="margin-bottom:1.25rem">
+    <div class="card">
+      <h3 class="ct">Rating distribution — 335 total ratings</h3>
+      <p class="cs">Lifetime star distribution · 2.4★ public average · Target 4.0+</p>
+      <div class="chart-wrap" style="height:220px"><canvas id="appRatingChart"></canvas></div>
+      <div class="ins"><strong>Bimodal distribution:</strong> 56.7% of users give 1★, 20.3% give 5★ — almost nothing in between. This polarisation is the signature of an app with a specific painful failure mode (login/auth) that alienates most users, while a loyal minority find it indispensable. The middle ground is missing, which means the majority experience needs to be fixed before a rating recovery campaign will work.</div>
+    </div>
+    <div class="card">
+      <h3 class="ct">Review themes — qualitative analysis</h3>
+      <p class="cs">226 written reviews synthesised into 8 themes · Frequency and sentiment</p>
+      <div class="chart-wrap" style="height:220px"><canvas id="appReviewChart"></canvas></div>
+      <div class="ins">Login/authentication issues are the dominant complaint — high frequency, confirmed by negative ratings. Barcode scanner failures are directly supported by crash data (ZXing, CameraProvider in top crash list). Positive themes (banking utility, institutional trust) exist but are outnumbered 5:1 by negative categories.</div>
+    </div>
+  </div>
+
+  <!-- ROW 3: Android Vitals -->
+  <div class="card" style="margin-bottom:1.25rem">
+    <h3 class="ct">Android Vitals — stability vs Google thresholds (last 28 days)</h3>
+    <p class="cs">Version 44 (1.7.3) · Published Dec 3, 2025 · Flutter (Dart) framework</p>
+    <div class="g2" style="margin-top:1rem;gap:1.25rem">
+      <div class="chart-wrap" style="height:220px"><canvas id="appVitalsChart"></canvas></div>
+      <div>
+        <table class="dt">
+          <thead><tr><th>Vital Metric</th><th>Value</th><th>Trend</th><th>Threshold</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Crash rate (user-perceived)</td><td class="num">0.04%</td><td style="color:var(--amber)">+0.02pp</td><td class="num">1.09%</td><td><span class="tag high">27× below ✓</span></td></tr>
+            <tr><td>ANR rate (user-perceived)</td><td class="num">0.04%</td><td style="color:var(--amber)">+0.02pp</td><td class="num">0.47%</td><td><span class="tag high">12× below ✓</span></td></tr>
+            <tr><td>Slow cold start rate</td><td class="num">1.03%</td><td style="color:var(--rose)">+0.26pp ↑</td><td class="num">4.7%</td><td><span class="tag med">Watch — regressing</span></td></tr>
+            <tr><td>Excessive slow frames</td><td class="num">3.09%</td><td style="color:var(--mint)">-0.62pp ↓</td><td class="num">30%</td><td><span class="tag high">Excellent + improving ✓</span></td></tr>
+            <tr><td>Battery drain</td><td>Not flagged</td><td>—</td><td>—</td><td><span class="tag high">No issues ✓</span></td></tr>
+          </tbody>
+        </table>
+        <div class="ins" style="margin-top:0.75rem">Despite the low public rating, the app's <strong>technical stability is genuinely excellent</strong>. Crash and ANR rates are 12–27× below Google's bad-behaviour thresholds. The slow cold start rate (+0.26pp trending) is the only technical concern worth monitoring before it breaches the threshold.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROW 4: Crash details -->
+  <div class="card" style="margin-bottom:1.25rem">
+    <h3 class="ct">Top crash & ANR issues — Version 44 (last 28 days)</h3>
+    <p class="cs">Ranked by affected users · Flutter (Dart) framework · 10 total users affected across all issues</p>
+    <table class="dt" style="margin-top:0.75rem">
+      <thead><tr><th>#</th><th>Type</th><th>Signature / Location</th><th>Users affected</th><th>% of crashes</th><th>Diagnosis</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><span class="tag low">ANR</span></td><td style="font-family:'DM Mono',monospace;font-size:0.75rem">android.os.MessageQueue (native)</td><td class="num">3</td><td class="num">30%</td><td>Main-thread block during Flutter bridge call — Dart isolate issue</td></tr>
+        <tr><td>2</td><td><span class="tag low">Crash</span></td><td style="font-family:'DM Mono',monospace;font-size:0.75rem">libflutter.so — SIGSEGV</td><td class="num">2</td><td class="num">20%</td><td>Flutter engine segfault — possible memory/state management issue</td></tr>
+        <tr><td>3</td><td><span class="tag low">Crash</span></td><td style="font-family:'DM Mono',monospace;font-size:0.75rem">ZXingAutofo — RuntimeException</td><td class="num">2</td><td class="num">20%</td><td>Barcode scanner failure during auto-focus — core feature affected</td></tr>
+        <tr><td>4</td><td><span class="tag low">Crash</span></td><td style="font-family:'DM Mono',monospace;font-size:0.75rem">libhwui.so — SIGSEGV</td><td class="num">1</td><td class="num">10%</td><td>Android rendering engine crash — UI rendering issue</td></tr>
+        <tr><td>5</td><td><span class="tag low">Crash</span></td><td style="font-family:'DM Mono',monospace;font-size:0.75rem">CameraProvider — RuntimeException</td><td class="num">1</td><td class="num">10%</td><td>Camera initialization failure during QR scan — same subsystem as #3</td></tr>
+        <tr><td>6</td><td><span class="tag low">ANR</span></td><td style="font-family:'DM Mono',monospace;font-size:0.75rem">std::_fl::co... (stdlib)</td><td class="num">1</td><td class="num">10%</td><td>Native C++ coroutine stall — Flutter SDK issue, likely fixable via upgrade</td></tr>
+      </tbody>
+    </table>
+    <div class="ins">The barcode/camera subsystem (issues #3 and #5) appears twice and maps directly to user complaints about QR scanner failures. This is a <strong>high-priority fix</strong> — the QR scanner is a signature feature visible in store screenshots. All 6 issues together affected only 10 users in 28 days, consistent with the excellent 0.04% crash rate.</div>
+  </div>
+
+  <!-- ROW 5: Recommendations + App details -->
+  <div class="g2" style="margin-bottom:1.25rem">
+    <div class="card">
+      <h3 class="ct">Prioritised recommendations</h3>
+      <p class="cs">11 recommendations across P0 (critical) → P3 (strategic)</p>
+      <div style="display:flex;flex-direction:column;gap:0.5rem;margin-top:0.5rem">
+        <div style="background:#fef2f2;border-left:3px solid var(--rose);border-radius:6px;padding:0.75rem">
+          <div style="font-size:0.62rem;font-weight:700;color:var(--rose);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem">P0 · Immediate (30 days)</div>
+          <p style="font-size:0.8rem;color:var(--ink);line-height:1.6"><strong>① Triage & respond to 1★ reviews</strong> — public replies can lift rating and address top complaints directly.<br><strong>② Investigate first-open drop (-16%)</strong> — install-to-open funnel leak, may be technical or UX.<br><strong>③ Fix ZXing/CameraProvider crashes</strong> — barcode scan is a signature feature; crashes hurt rating.</p>
+        </div>
+        <div style="background:#fffbeb;border-left:3px solid var(--amber);border-radius:6px;padding:0.75rem">
+          <div style="font-size:0.62rem;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem">P1 · High (30–60 days)</div>
+          <p style="font-size:0.8rem;color:var(--ink);line-height:1.6"><strong>④ Ship a maintenance release</strong> — app hasn't been updated since Dec 2025; signals active development.<br><strong>⑤ Add in-app rating prompt after success events</strong> — shift rating distribution from 1★ to 4–5★.<br><strong>⑥ Investigate 7-day retention cliff (-35%)</strong> — cohort analysis to identify onboarding gaps.</p>
+        </div>
+        <div style="background:#f0fdf4;border-left:3px solid var(--mint);border-radius:6px;padding:0.75rem">
+          <div style="font-size:0.62rem;font-weight:700;color:var(--mint);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem">P2–P3 · Strategic (60–90 days+)</div>
+          <p style="font-size:0.8rem;color:var(--ink);line-height:1.6"><strong>⑦ Flutter SDK upgrade</strong> — address libflutter.so SIGSEGV and MessageQueue ANR patterns.<br><strong>⑧ ASO refresh</strong> — updated store listing, screenshots, Arabic/English description.<br><strong>⑨ Review-response SLA</strong> — systematic 1–3★ reply protocol.<br><strong>⑩ Cold start SLO</strong> — bound the +0.26pp regression before it worsens.<br><strong>⑪ Evaluate iDplus integration</strong> — PMA and iDplus share users; unify UX and cross-promote.</p>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h3 class="ct">App identity & technical details</h3>
+      <p class="cs">Google Play Console metadata · Version 44 (1.7.3)</p>
+      <table class="dt" style="margin-top:0.5rem">
+        <tbody>
+          <tr><td style="color:var(--muted);font-size:0.78rem">Package name</td><td style="font-family:'DM Mono',monospace;font-size:0.78rem">ps.mobileDT.pma</td></tr>
+          <tr><td style="color:var(--muted);font-size:0.78rem">Framework</td><td style="font-size:0.78rem">Flutter (Dart) · confirmed by libflutter.so crash traces</td></tr>
+          <tr><td style="color:var(--muted);font-size:0.78rem">Latest version</td><td style="font-size:0.78rem">44 / 1.7.3 · Published December 3, 2025</td></tr>
+          <tr><td style="color:var(--muted);font-size:0.78rem">Content rating</td><td style="font-size:0.78rem">Rated for 12+</td></tr>
+          <tr><td style="color:var(--muted);font-size:0.78rem">Key features</td><td style="font-size:0.78rem">QR/barcode scanner · account inquiry · Nishaam system · digital banking</td></tr>
+          <tr><td style="color:var(--muted);font-size:0.78rem">Languages</td><td style="font-size:0.78rem">Arabic (RTL primary) with English toggle</td></tr>
+          <tr><td style="color:var(--muted);font-size:0.78rem">Key libraries</td><td style="font-family:'DM Mono',monospace;font-size:0.72rem">libflutter.so · ZXing (barcode) · CameraX · libhwui.so</td></tr>
+          <tr><td style="color:var(--muted);font-size:0.78rem">Policy status</td><td style="font-size:0.78rem"><span class="tag high">Compliant — no policy issues</span></td></tr>
+          <tr><td style="color:var(--muted);font-size:0.78rem">Sister app</td><td style="font-size:0.78rem">iDplus (ps.pma.fdid.mobile) — 10,600 installed · 2.6★</td></tr>
+          <tr><td style="color:var(--muted);font-size:0.78rem">Platform</td><td style="font-size:0.78rem">Android (Google Play) only · iOS not assessed</td></tr>
+          <tr><td style="color:var(--muted);font-size:0.78rem">Play Store</td><td style="font-size:0.78rem"><a class="view-link" href="https://play.google.com/store/apps/details?id=ps.mobileDT.pma" target="_blank">View on Google Play ↗</a></td></tr>
+        </tbody>
+      </table>
+      <div class="cl warn" style="margin-top:1rem">
+        <div class="cl-label">Geographic reach</div>
+        <p>Top usage countries: <strong>Palestine (primary) → Israel (diaspora) → United States (Palestinian diaspora) → Jordan.</strong> The Explore channel generated 896 acquisitions in 90 days — organic store discovery is working, but not converting to retained users.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- KEY RISKS CALLOUT -->
+  <div class="g2">
+    <div class="cl danger" style="margin:0">
+      <div class="cl-label">Critical risk — public rating</div>
+      <p>A 2.4★ rating on Google Play is publicly visible on the store listing and <strong>actively deters new installs</strong>. Google's own research shows apps below 3.0★ see significantly reduced store conversion. With 57% of reviews being 1★, the rating distribution is structurally skewed. Recovery requires fixing the login/auth failure (root cause) before any rating campaign will be effective.</p>
+    </div>
+    <div class="cl success" style="margin:0">
+      <div class="cl-label">Key strength — technical stability</div>
+      <p>The gap between user perception (2.4★) and technical performance (0.04% crash rate, A grade stability) is unusual. The app is <strong>not crashing on most users</strong> — the negative reviews are driven by UX and login failures, not technical instability. This means the engineering effort required for recovery is primarily UX/auth-focused, not a ground-up rewrite.</p>
+    </div>
+  </div>
+</div>
 
 <!-- ════════════════════════════════════════════════════════════════ -->
 <!-- SECTION: RECOMMENDATIONS -->
@@ -1856,6 +2025,30 @@ const HEADERS = {
       {icon:'⚠️',text:'Recommendations section pending full native data access'},
     ],
   },
+  mobileapp: {
+    gradient: 'linear-gradient(135deg,#001a12 0%,#003d28 50%,#10b981 100%)',
+    eyebrow: 'Platform Analysis · PMA Mobile App — Google Play',
+    title: 'Mobile App',
+    titleEm: 'PMA Android App · Google Play Assessment',
+    sub: 'Google Play Console performance assessment of the official PMA app (ps.mobileDT.pma) — covering install base, acquisition, ratings, review themes, Android vitals, and crash analysis. Data captured April 14, 2026.',
+    stats: [
+      {num:'25,400',lbl:'Active installed devices'},
+      {num:'2.4 ★',lbl:'Public rating (target: 4.0+)'},
+      {num:'0.04%',lbl:'Crash rate (27× below threshold)'},
+      {num:'C+',lbl:'Overall grade — functional but underperforming'},
+    ],
+    accounts: [
+      {name:'PMA App',url:'play.google.com/store/apps/details?id=ps.mobileDT.pma',color:'#6ee7b7'},
+      {name:'iDplus (sister app)',url:'ps.pma.fdid.mobile · 10,600 installed · 2.6★',color:'#fbbf24'},
+    ],
+    notes: [
+      {icon:'📅',text:'Assessment date: April 14, 2026 · Last app update: Dec 3, 2025'},
+      {icon:'📱',text:'Android (Google Play) only — iOS App Store not assessed'},
+      {icon:'🔴',text:'2.4★ public rating — 57% of reviews are 1★ — deters new installs'},
+      {icon:'⚠️',text:'7-day retention dropped -35% vs prior period — critical cohort issue'},
+      {icon:'✅',text:'Technical stability is excellent — crash and ANR rates 12–27× below Google thresholds'},
+    ],
+  },
   methodology: {
     gradient: 'linear-gradient(135deg,#1a1a1a 0%,#2a2a3a 55%,#3a3a5a 100%)',
     eyebrow: 'Reference · Methodology & Theory',
@@ -2347,6 +2540,73 @@ new Chart(document.getElementById('igFollowChart'),{type:'bar',data:{
   labels:AUD.ig.follower_gains.dates,
   datasets:[{data:AUD.ig.follower_gains.values,backgroundColor:'#e1306ccc',borderRadius:2,borderSkipped:false}]
 },options:{...co,scales:{x:{ticks:{color:lc,font:{size:8},maxRotation:45,autoSkip:true,maxTicksLimit:16},grid:{display:false}},y:{ticks:{color:lc,font:{size:9}},grid:{color:grid},title:{display:true,text:'new followers/day',color:lc,font:{size:9}}}}}});
+
+
+// ── MOBILE APP CHARTS ────────────────────────────────────────────────
+
+// Install base
+new Chart(document.getElementById('appInstallChart'),{type:'bar',data:{
+  labels:['Lifetime Downloads','Currently Installed','Active Installs','MAU'],
+  datasets:[{
+    data:[50000,25400,19000,10100],
+    backgroundColor:['#10b981aa','#10b981cc','#0a66c2cc','#3b8bd4cc'],
+    borderRadius:5,borderSkipped:false
+  }]
+},options:{...co,indexAxis:'y',scales:{
+  x:{ticks:{color:lc,font:{size:9},callback:v=>v>=1000?(v/1000).toFixed(0)+'K':v},grid:{color:grid}},
+  y:{ticks:{color:lc,font:{size:10}},grid:{display:false}}
+}}});
+
+// Acquisition funnel
+new Chart(document.getElementById('appFunnelChart'),{type:'bar',data:{
+  labels:['New devices (28d)','First opens (28d)','MAU','7-day retention'],
+  datasets:[{
+    data:[2170,963,10100,41],
+    backgroundColor:['#1877f2cc','#d97706cc','#0a66c2cc','#c0394bcc'],
+    borderRadius:5,borderSkipped:false
+  }]
+},options:{...co,indexAxis:'y',scales:{
+  x:{ticks:{color:lc,font:{size:9}},grid:{color:grid}},
+  y:{ticks:{color:lc,font:{size:10}},grid:{display:false}}
+}}});
+
+// Rating distribution
+new Chart(document.getElementById('appRatingChart'),{type:'bar',data:{
+  labels:['5 ★','4 ★','3 ★','2 ★','1 ★'],
+  datasets:[{
+    data:[68,27,20,30,190],
+    backgroundColor:['#1d9e75cc','#4ade80cc','#d97706cc','#f97316cc','#c0394bcc'],
+    borderRadius:4,borderSkipped:false
+  }]
+},options:{...co,indexAxis:'y',scales:{
+  x:{ticks:{color:lc,font:{size:9}},grid:{color:grid},title:{display:true,text:'review count',color:lc,font:{size:9}}},
+  y:{ticks:{color:lc,font:{size:11}},grid:{display:false}}
+}}});
+
+// Review themes
+new Chart(document.getElementById('appReviewChart'),{type:'bar',data:{
+  labels:['Login / auth issues','App crashes on open','QR / barcode scanner','Slow performance','Arabic / RTL bugs','Missing features','Useful for banking','Trust in institution'],
+  datasets:[{
+    data:[5,4,4,3,3,2,2,2],
+    backgroundColor:['#c0394bcc','#c0394bcc','#c0394bcc','#d97706cc','#d97706cc','#d97706cc','#1d9e75cc','#1d9e75cc'],
+    borderRadius:4,borderSkipped:false
+  }]
+},options:{...co,indexAxis:'y',scales:{
+  x:{ticks:{color:lc,font:{size:9},callback:v=>['Low','Low','Med','Med','High','High','Very High'][v-1]||v},grid:{color:grid},title:{display:true,text:'frequency (relative)',color:lc,font:{size:9}}},
+  y:{ticks:{color:lc,font:{size:9}},grid:{display:false}}
+}}});
+
+// Android Vitals comparison chart (actual vs threshold)
+new Chart(document.getElementById('appVitalsChart'),{type:'bar',data:{
+  labels:['Crash rate','ANR rate','Slow cold start','Slow frames'],
+  datasets:[
+    {label:'Actual',data:[0.04,0.04,1.03,3.09],backgroundColor:'#10b981cc',borderRadius:4,borderSkipped:false},
+    {label:'Bad threshold',data:[1.09,0.47,4.7,30],backgroundColor:'#c0394b44',borderRadius:4,borderSkipped:false},
+  ]
+},options:{...co,plugins:{legend:{display:true,position:'top',labels:{color:lc,font:{size:11},usePointStyle:true,pointStyleWidth:8}}},scales:{
+  x:{ticks:{color:lc,font:{size:9}},grid:{display:false}},
+  y:{ticks:{color:lc,font:{size:9},callback:v=>v+'%'},grid:{color:grid},title:{display:true,text:'% of sessions',color:lc,font:{size:9}}}
+}}});
 
 </script>
 </body>
