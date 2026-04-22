@@ -259,20 +259,39 @@ a.view-link:hover { text-decoration: underline; }
 /* ── DATA GAP ── */
 .gap-badge { display: inline-flex; align-items: center; gap: 0.3rem; background: #fef9c3; border: 1px solid #fcd34d; border-radius: 5px; font-size: 0.68rem; font-weight: 600; color: #854d0e; padding: 0.2rem 0.5rem; }
 
-/* ── RESPONSIVE ── */
+
+/* ── MOBILE MENU TOGGLE ── */
+.mobile-toggle {
+  display: none; position: fixed; top: 1rem; left: 1rem; z-index: 300;
+  background: var(--navy); color: white; border: none; border-radius: 8px;
+  width: 40px; height: 40px; font-size: 1.1rem; cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3); align-items: center; justify-content: center;
+}
+.sidebar-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 199;
+}
 @media(max-width:1000px){
+  .mobile-toggle { display: flex; }
   .sidebar { transform: translateX(-220px); }
+  .sidebar.open { transform: translateX(0); box-shadow: 4px 0 30px rgba(0,0,0,0.4); }
+  .sidebar-overlay.open { display: block; }
   .main { margin-left: 0; }
   .account-grid,.g2,.g3,.g2-1,.g1-2 { grid-template-columns: 1fr; }
   .kpi-strip { grid-template-columns: repeat(2,1fr); }
   .ph-meta { gap: 1.25rem; }
+  .main-inner { padding: 1rem 1rem 4rem; }
+  .page-header { margin: -1rem -1rem 1.75rem; }
+  .ph-inner { padding: 4rem 1.25rem 1.5rem; }
 }
+
 </style>
 </head>
 <body>
 
 <!-- ── SIDEBAR ─────────────────────────────────────────────────────── -->
-<aside class="sidebar">
+<button class="mobile-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Open menu">☰</button>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+<aside class="sidebar" id="sidebar">
   <div class="sidebar-brand">
     <div class="brand-name">Social Studio<br>Analytics</div>
     <div class="brand-sub">PMA P2025/34</div>
@@ -304,6 +323,12 @@ a.view-link:hover { text-decoration: underline; }
     </a>
 
     <div class="nav-section">Analysis</div>
+    <a class="nav-item" data-section="audience" onclick="showSection('audience',this)">
+      <span class="ni-dot" style="background:#f97316"></span> Audience
+    </a>
+    <a class="nav-item" data-section="ads" onclick="showSection('ads',this)">
+      <span class="ni-dot" style="background:#10b981"></span> Meta Ads
+    </a>
     <a class="nav-item" data-section="content" onclick="showSection('content',this)">
       <span class="ni-dot" style="background:#d97706"></span> Content Performance
     </a>
@@ -312,6 +337,10 @@ a.view-link:hover { text-decoration: underline; }
     </a>
     <a class="nav-item" data-section="cross" onclick="showSection('cross',this)">
       <span class="ni-dot" style="background:#1d9e75"></span> Cross-Platform
+    </a>
+
+    <a class="nav-item" data-section="recommendations" onclick="showSection('recommendations',this)">
+      <span class="ni-dot" style="background:#f59e0b"></span> Recommendations
     </a>
 
     <div class="nav-section">Reference</div>
@@ -404,7 +433,7 @@ a.view-link:hover { text-decoration: underline; }
 
   <!-- DATA GAPS NOTE -->
   <div class="cl warn">
-    <div class="cl-label">Data scope — initial findings</div>
+    <div class="cl-label">Data scope — current findings, April 2026</div>
     <p>This dashboard is based on public post scrapes + native exports received to date. <strong>Gaps flagged:</strong> GA4 for pma.ps (deferred) · LinkedIn impressions unavailable in scrape · X engagement limited to 2021–2026 · YouTube data is channel-level only · Instagram Stories not available · Monshati/CYBW/Banking Awareness subsidiary accounts lack native exports. These will be integrated as access is confirmed.</p>
   </div>
 </div>
@@ -415,7 +444,7 @@ a.view-link:hover { text-decoration: underline; }
 <div id="sec-accounts" class="section">
   <div class="section-label">Account Scorecards</div>
   <h2 class="section-title">All four brand pages — platform-by-platform</h2>
-  <p class="section-intro">Click any account card to filter the comparison charts. Data covers the full analysis period for each platform.</p>
+  <p class="section-intro">All four brand pages — performance compared across Facebook and Instagram. Select any card to highlight an account.</p>
 
   <div class="account-grid" id="acct-cards"></div>
 
@@ -452,7 +481,7 @@ a.view-link:hover { text-decoration: underline; }
 <!-- SECTION: FACEBOOK -->
 <!-- ════════════════════════════════════════════════════════════════ -->
 <div id="sec-facebook" class="section">
-  <div class="section-label">Facebook — 4 pages</div>
+  <div class="section-label">Platform Analysis · Facebook</div>
   <h2 class="section-title">Facebook analysis</h2>
   <p class="section-intro">1,341 posts across 4 pages (March 2023–March 2026). PMA Core dominates with 639 posts and 81,336 total engagement. Video posts average 206 engagement — more than double any other format — yet represent just 9.5% of posts.</p>
 
@@ -496,6 +525,7 @@ a.view-link:hover { text-decoration: underline; }
       <h3 class="ct">Average engagement by post type — Facebook</h3>
       <p class="cs">All pages combined — video dominates by 2×</p>
       <div class="chart-wrap" style="height:220px"><canvas id="fbTypeChart"></canvas></div>
+      <div class="ins"><strong>Shared posts (3.9 avg)</strong> are effectively invisible to Meta's algorithm. Removing them would raise the portfolio average immediately. <strong>Video (206)</strong> represents the single highest-leverage content investment available.</div>
     </div>
     <div class="card">
       <h3 class="ct">Reaction breakdown by page — Facebook</h3>
@@ -517,7 +547,7 @@ a.view-link:hover { text-decoration: underline; }
 <!-- SECTION: INSTAGRAM -->
 <!-- ════════════════════════════════════════════════════════════════ -->
 <div id="sec-instagram" class="section">
-  <div class="section-label">Instagram — 4 pages</div>
+  <div class="section-label">Platform Analysis · Instagram</div>
   <h2 class="section-title">Instagram analysis</h2>
   <p class="section-intro">1,775 posts across 4 pages (Jun 2021–Mar 2026). Banking Awareness outperforms PMA Core on avg engagement (26.6 vs 14.5). Video posts average 65.9 engagement — 6× image posts. The audience is measurably warmer: 40.4% of comments are positive vs Facebook's 8.4%.</p>
 
@@ -552,7 +582,7 @@ a.view-link:hover { text-decoration: underline; }
       <h3 class="ct">Average engagement by post type — Instagram</h3>
       <p class="cs">Video vs Image vs Sidecar (carousel)</p>
       <div class="chart-wrap" style="height:220px"><canvas id="igTypeChart"></canvas></div>
-      <div class="ins">Video (65.9 avg) vs Image (11.1 avg) — a <strong>6× performance gap</strong>. Only 143 of 1,775 posts (8.1%) are video. The gap between format share and performance premium is even wider than Facebook.</div>
+      <div class="ins"><strong>Instagram's video-to-image gap (6×)</strong> is even more pronounced than Facebook's 2× gap. With only 143 of 1,775 posts being video (8.1%), this is the highest-leverage underexploited format in the entire portfolio.<br>Video (65.9 avg) vs Image (11.1 avg) — a <strong>6× performance gap</strong>. Only 143 of 1,775 posts (8.1%) are video. The gap between format share and performance premium is even wider than Facebook.</div>
     </div>
   </div>
 
@@ -581,8 +611,8 @@ a.view-link:hover { text-decoration: underline; }
 
   <div class="g2" style="margin-bottom:1.25rem">
     <div class="card">
-      <h3 class="ct">Monthly posting volume — LinkedIn PMA Core</h3>
-      <p class="cs">Jan 2023–Mar 2026 — bar shade indicates year</p>
+      <h3 class="ct">Monthly engagement — LinkedIn PMA Core</h3>
+      <p class="cs">Total likes + comments + shares per month — bar shade indicates year</p>
       <div class="chart-wrap" style="height:220px"><canvas id="liVolChart"></canvas></div>
       <div class="ins">2023: avg <strong>33.8 posts/month → 4.5 avg engagement</strong>. 2025: avg <strong>16.4 posts/month → 25.3 avg engagement</strong>. Halving volume yielded 5.6× better results.</div>
     </div>
@@ -621,7 +651,7 @@ a.view-link:hover { text-decoration: underline; }
 <!-- SECTION: TWITTER / X -->
 <!-- ════════════════════════════════════════════════════════════════ -->
 <div id="sec-twitter" class="section">
-  <div class="section-label">X / Twitter</div>
+  <div class="section-label">Platform Analysis · X / Twitter</div>
   <h2 class="section-title">X / Twitter analysis</h2>
   <p class="section-intro">1,246 tweets from PMAuthority (806) and MonshatiPs (440), spanning Oct 2021–Mar 2026. The platform functions as a broadcast archive: average 47 views/tweet for PMA Core, near-zero retweet and reply activity. MonshatiPs has been dormant since mid-2023.</p>
 
@@ -667,7 +697,7 @@ a.view-link:hover { text-decoration: underline; }
 <!-- SECTION: YOUTUBE -->
 <!-- ════════════════════════════════════════════════════════════════ -->
 <div id="sec-youtube" class="section">
-  <div class="section-label">YouTube</div>
+  <div class="section-label">Platform Analysis · YouTube</div>
   <h2 class="section-title">YouTube channel analysis</h2>
   <p class="section-intro">Single PMA channel launched Nov 2012. 191 videos in dataset, 1,150 subscribers, 120,383 total channel views. The channel is chronically under-invested given the demonstrated power of video content on Facebook and Instagram.</p>
 
@@ -675,7 +705,7 @@ a.view-link:hover { text-decoration: underline; }
     <div class="kpi-cell"><div class="kv">191</div><div class="kl">Videos in dataset</div></div>
     <div class="kpi-cell"><div class="kv w">1,150</div><div class="kl">Channel subscribers</div><div class="kd dn">↓ After 13 years</div></div>
     <div class="kpi-cell"><div class="kv">120K</div><div class="kl">Total channel views (all-time)</div></div>
-    <div class="kpi-cell"><div class="kv r">36,644</div><div class="kl">Views in scraped dataset</div><div class="kd dn">↓ Low per-video average</div></div>
+    <div class="kpi-cell"><div class="kv">192</div><div class="kl">Avg views per video (dataset)</div><div class="kd dn">↓ 36,644 total in scraped subset</div></div>
   </div>
 
   <div class="g2" style="margin-bottom:1.25rem">
@@ -699,11 +729,130 @@ a.view-link:hover { text-decoration: underline; }
   </div>
 </div>
 
+
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- SECTION: AUDIENCE DEMOGRAPHICS -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div id="sec-audience" class="section">
+  <div class="section-label">Analysis · Audience Demographics</div>
+  <h2 class="section-title">Audience demographics</h2>
+  <p class="section-intro">Age, gender, city, and country breakdown for PMA Core's Facebook and Instagram audiences. Data sourced from native Meta Business Suite audience insights exports. Figures represent percentage of total page audience.</p>
+
+  <div class="kpi-strip" style="grid-template-columns:repeat(4,1fr)">
+    <div class="kpi-cell"><div class="kv">67.8%</div><div class="kl">Facebook audience — male</div><div class="kd dn">↓ Significant gender skew</div></div>
+    <div class="kpi-cell"><div class="kv g">44.9%</div><div class="kl">Instagram audience — female</div><div class="kd up">↑ More balanced than FB</div></div>
+    <div class="kpi-cell"><div class="kv">81.8%</div><div class="kl">FB audience in Palestine</div></div>
+    <div class="kpi-cell"><div class="kv">78%</div><div class="kl">IG audience in Palestine</div></div>
+  </div>
+
+  <div class="g2" style="margin-bottom:1.25rem">
+    <div class="card">
+      <h3 class="ct">Age & gender distribution — Facebook audience</h3>
+      <p class="cs">% of total page audience by age band and gender — PMA Core Facebook</p>
+      <div class="chart-wrap" style="height:240px"><canvas id="fbAgeChart"></canvas></div>
+      <div class="ins">The 25–34 male segment (25.8%) is the largest single cohort on Facebook, followed by 35–44 males (23.9%). <strong>Women account for only 32.2%</strong> of the total audience — a significant gap given that financial inclusion for women is a stated PMA priority. The 25–44 combined segment represents 74.5% of the audience.</div>
+    </div>
+    <div class="card">
+      <h3 class="ct">Age & gender distribution — Instagram audience</h3>
+      <p class="cs">% of total page audience by age band and gender — PMA Core Instagram</p>
+      <div class="chart-wrap" style="height:240px"><canvas id="igAgeChart"></canvas></div>
+      <div class="ins">Instagram audience is substantially more gender-balanced: <strong>55.1% male vs 44.9% female</strong>. The 25–34 age band dominates on both genders (22.9% male, 22.2% female) — and the 18–24 band is near-equal (7.1% vs 7.4%), suggesting Instagram is more effective at reaching young women.</div>
+    </div>
+  </div>
+
+  <div class="g2" style="margin-bottom:1.25rem">
+    <div class="card">
+      <h3 class="ct">Top cities — Facebook vs Instagram</h3>
+      <p class="cs">% of audience by city — FB: Gaza leads · IG: Ramallah leads</p>
+      <div class="chart-wrap" style="height:260px"><canvas id="cityChart"></canvas></div>
+      <div class="ins">Gaza leads on Facebook (16.2%) while Ramallah leads on Instagram (15.9%) — reflecting the different platform penetration and demographic profiles in each city. Nablus and Hebron feature in both top 10s. The Ramallah concentration on Instagram likely reflects its younger, more connected population.</div>
+    </div>
+    <div class="card">
+      <h3 class="ct">Top countries — Facebook vs Instagram</h3>
+      <p class="cs">% of audience outside Palestine — diaspora and regional reach</p>
+      <div class="chart-wrap" style="height:260px"><canvas id="countryChart"></canvas></div>
+      <div class="ins">Palestine dominates both platforms (FB: 81.8%, IG: 78%). Israel ranks second on both — likely reflecting Palestinian citizens within 1948 borders. The diaspora reach is limited but covers key markets: Egypt, Jordan, UAE, USA. IG has slightly wider international reach (22% non-Palestinian vs FB's 18.2%).</div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <div class="card">
+      <h3 class="ct">Instagram daily follower gains — Jan–Apr 2026</h3>
+      <p class="cs">New followers per day from native Meta export — 95 days tracked</p>
+      <div class="chart-wrap" style="height:200px"><canvas id="igFollowChart"></canvas></div>
+      <div class="ins">Average 18 new followers/day during Jan–Apr 2026. Spike on Jan 12 (293 new followers) coincides with a high-engagement post. Daily follower acquisition is modest but consistent — indicating organic growth without a paid acquisition strategy.</div>
+    </div>
+    <div class="card">
+      <h3 class="ct">Strategic audience insights</h3>
+      <p class="cs">Key implications of demographic findings</p>
+      <div style="display:flex;flex-direction:column;gap:0.6rem;margin-top:0.5rem">
+        <div class="cl danger" style="margin:0"><div class="cl-label">Gender gap — Facebook</div><p>At 67.8% male, PMA Core Facebook has a structurally male-skewed audience — despite financial inclusion for women being a key PMA mandate. Content strategy should actively target financial empowerment for women.</p></div>
+        <div class="cl success" style="margin:0"><div class="cl-label">Instagram audience fit</div><p>Instagram's near-balanced gender split (55/45) makes it the better platform for women-focused financial inclusion campaigns. Banking Awareness Platform's IG account (26.6 avg engagement) already demonstrates stronger fit — cross-promote more aggressively there.</p></div>
+        <div class="cl info" style="margin:0"><div class="cl-label">25–44 concentration</div><p>The 25–44 working-age segment represents 74.5% of Facebook audience and ~72% of Instagram — the prime target for iBURAQ adoption, digital payment messaging, and financial literacy content. Content should be skewed toward practical financial tools, not general banking education.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- SECTION: META ADS -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div id="sec-ads" class="section">
+  <div class="section-label">Analysis · Paid Media</div>
+  <h2 class="section-title">Meta Ads performance</h2>
+  <p class="section-intro">94 campaigns across Facebook and Instagram, March 2023 – April 2026. Total ad spend: $4,924 across 20M+ impressions and 8.3M reach. Data sourced from native Meta Ads Manager exports at campaign level and demographic breakdown level.</p>
+
+  <div class="kpi-strip" style="grid-template-columns:repeat(5,1fr)" id="ads-kpi-strip">
+    <div class="kpi-cell"><div class="kv">94</div><div class="kl">Total campaigns</div><div class="kd">Mar 2023 – Apr 2026</div></div>
+    <div class="kpi-cell"><div class="kv g">$4,924</div><div class="kl">Total ad spend (USD)</div></div>
+    <div class="kpi-cell"><div class="kv">20.1M</div><div class="kl">Total impressions</div></div>
+    <div class="kpi-cell"><div class="kv">8.3M</div><div class="kl">Total reach</div></div>
+    <div class="kpi-cell"><div class="kv g">$0.044</div><div class="kl">Avg cost per result</div><div class="kd up">↑ Efficient across objectives</div></div>
+  </div>
+
+  <div class="g2" style="margin-bottom:1.25rem">
+    <div class="card">
+      <h3 class="ct">Ad spend by year</h3>
+      <p class="cs">Budget allocation across campaign creation years</p>
+      <div class="chart-wrap" style="height:220px"><canvas id="adsSpendChart"></canvas></div>
+      <div class="ins">2023 dominated campaign creation volume (62 campaigns). 2025 saw the highest single campaign spend ($999.80 — iDplus launch). 2026 already shows $866 spend in the first quarter, indicating an accelerating paid media investment.</div>
+    </div>
+    <div class="card">
+      <h3 class="ct">Campaign objectives breakdown</h3>
+      <p class="cs">By result indicator — what campaigns were optimised to achieve</p>
+      <div class="chart-wrap" style="height:220px"><canvas id="adsObjChart"></canvas></div>
+      <div class="ins">Link clicks (32 campaigns) and post engagement (15 campaigns) are the dominant objectives. <strong>Video ThruPlay</strong> campaigns (8) represent the most efficient ad format — cost per result as low as $0.001 in some campaigns. Reach campaigns (5) were used for high-priority public announcements.</div>
+    </div>
+  </div>
+
+  <!-- Top campaigns table -->
+  <div class="card" style="margin-bottom:1.25rem">
+    <h3 class="ct">Top 10 campaigns by spend</h3>
+    <p class="cs">Native Meta Ads Manager export · Mar 2023 – Apr 2026</p>
+    <table class="dt" style="margin-top:0.75rem">
+      <thead><tr><th>Campaign</th><th>Objective</th><th>Spend (USD)</th><th>Impressions</th><th>Results</th><th>CPR</th><th>Status</th></tr></thead>
+      <tbody id="ads-campaigns-table"></tbody>
+    </table>
+  </div>
+
+  <div class="g2">
+    <div class="cl success" style="margin:0">
+      <div class="cl-label">Most efficient campaign — iDplus 2026</div>
+      <p>The iDplus Videos campaign (Jan 2026) achieved <strong>26,098 landing page views at $0.019 per result</strong> from a $500 budget — the most efficient campaign in the dataset. This confirms video content + landing page objective as the optimal paid media formula for product launches.</p>
+    </div>
+    <div class="cl warn" style="margin:0">
+      <div class="cl-label">Data gap — demographic breakdown</div>
+      <p>A separate demographic breakdown report (17 campaigns with age/gender data) is available but requires further processing to produce audience-level paid media insights. This will be integrated in the next update. Overall: 73 campaigns are inactive, 15 archived, 3 completed, 3 still active.</p>
+    </div>
+  </div>
+</div>
+
 <!-- ════════════════════════════════════════════════════════════════ -->
 <!-- SECTION: CONTENT PERFORMANCE -->
 <!-- ════════════════════════════════════════════════════════════════ -->
 <div id="sec-content" class="section">
-  <div class="section-label">Content Performance</div>
+  <div class="section-label">Analysis · Content Performance</div>
   <h2 class="section-title">What works — format, timing &amp; theme</h2>
   <p class="section-intro">Cross-platform content analysis covering post format performance, optimal posting windows, day-of-week patterns, and the universal scheduling anomaly visible across all channels.</p>
 
@@ -758,7 +907,7 @@ a.view-link:hover { text-decoration: underline; }
 <!-- SECTION: SENTIMENT ANALYSIS -->
 <!-- ════════════════════════════════════════════════════════════════ -->
 <div id="sec-sentiment" class="section">
-  <div class="section-label">Sentiment Analysis</div>
+  <div class="section-label">Analysis · Comment Sentiment</div>
   <h2 class="section-title">Comment sentiment — Facebook &amp; Instagram</h2>
   <p class="section-intro">7,690 Facebook comments and 795 Instagram comments classified using a rule-based Arabic sentiment classifier (80+ term lexicon + emoji signals + VADER for Latin text). 609 Facebook posts and 179 Instagram posts have matched comment data.</p>
 
@@ -810,6 +959,23 @@ a.view-link:hover { text-decoration: underline; }
     </div>
   </div>
 
+
+  <!-- Instagram sentiment breakdown -->
+  <div class="g2" style="margin-top:1.25rem;margin-bottom:1.25rem">
+    <div class="card">
+      <h3 class="ct">Instagram comment sentiment — top positive posts</h3>
+      <p class="cs">Posts with highest positive comment sentiment (179 posts with matched comments)</p>
+      <div id="ig-sent-posts"></div>
+      <div class="ins">Instagram comments skew strongly positive (40.4%) — largely driven by emoji reactions (👏❤️🔥) and celebratory language. Negative comments are rare (1.8%) and concentrated on financial service complaint posts.</div>
+    </div>
+    <div class="card">
+      <h3 class="ct">Sentiment comparison — Instagram vs Facebook by account</h3>
+      <p class="cs">IG audiences respond warmer than FB across all accounts</p>
+      <div class="chart-wrap" style="height:220px"><canvas id="igVsFbSentChart"></canvas></div>
+      <div class="ins">Banking Awareness achieves the strongest positive ratio on Instagram — consistent with its content being more educational and less policy-heavy than PMA Core. The platform-audience fit difference (IG 40% vs FB 8% positive) is structural, not content-specific.</div>
+    </div>
+  </div>
+
   <div class="cl warn" style="margin-top:1.25rem">
     <div class="cl-label">Moderation gap</div>
     <p>Negative comments on public policy posts are publicly visible and unanswered in the scraped data. A community management protocol — especially for policy consultation posts and service announcements — would materially reduce reputational risk. Priority topics: <strong>loan/interest concerns, app login issues, payment discount claims, cash reduction law</strong>.</p>
@@ -820,7 +986,7 @@ a.view-link:hover { text-decoration: underline; }
 <!-- SECTION: CROSS-PLATFORM -->
 <!-- ════════════════════════════════════════════════════════════════ -->
 <div id="sec-cross" class="section">
-  <div class="section-label">Cross-Platform Insights</div>
+  <div class="section-label">Synthesis · Cross-Platform</div>
   <h2 class="section-title">Patterns that span all channels</h2>
   <p class="section-intro">Findings that only emerge when all platforms are viewed together — from content that travels universally to structural scheduling problems affecting every channel simultaneously.</p>
 
@@ -864,11 +1030,120 @@ a.view-link:hover { text-decoration: underline; }
     </div>
   </div>
 
+
+  <!-- Cross-platform ENGAGEMENT comparison -->
+  <div class="card" style="margin-bottom:1.25rem">
+    <h3 class="ct">Monthly engagement trend — all platforms compared (2023–2026)</h3>
+    <p class="cs">Facebook, Instagram, and LinkedIn on the same axis — reveals relative scale and growth patterns</p>
+    <div class="legend">
+      <div class="li-item"><div class="li-dot" style="background:#1877f2"></div>Facebook</div>
+      <div class="li-item"><div class="li-dot" style="background:#e1306c"></div>Instagram</div>
+      <div class="li-item"><div class="li-dot" style="background:#0a66c2"></div>LinkedIn</div>
+    </div>
+    <div class="chart-wrap" style="height:260px"><canvas id="crossEngChart"></canvas></div>
+    <div class="ins">Facebook engagement dwarfs other platforms in absolute terms — but <strong>LinkedIn's growth trajectory is the steepest</strong> when normalised per post. Instagram tracks Facebook seasonality but at ~25% of the volume. All three platforms show a clear upward trend from mid-2024 onward.</div>
+  </div>
+
   <!-- Cross-platform volume comparison -->
   <div class="card">
     <h3 class="ct">Cross-platform monthly volume — all accounts, all platforms (2023–2026)</h3>
     <p class="cs">Stacked monthly posts — reveals the dominance of Facebook and Instagram, LinkedIn's deliberate reduction, and Twitter's decline</p>
     <div class="chart-wrap" style="height:250px"><canvas id="crossVolChart"></canvas></div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════════════════════════ -->
+<!-- SECTION: RECOMMENDATIONS -->
+<!-- ════════════════════════════════════════════════════════════════ -->
+<div id="sec-recommendations" class="section">
+  <div class="section-label">Strategic Recommendations</div>
+  <h2 class="section-title">Recommendations</h2>
+  <p class="section-intro">Strategic and tactical recommendations derived from findings across all five platforms. Presented in two tiers: immediate actions (implementable within 30 days with existing resources) and strategic priorities (requiring planning, resource allocation, or policy alignment). Recommendations will be further refined once: benchmarking accounts are provided by PMA, strategy and brand documents are shared, and remaining native platform exports are confirmed.</p>
+
+  <div class="cl info" style="margin-bottom:1.75rem">
+    <div class="cl-label">Status — current version</div>
+    <p>These recommendations are based on data available as of April 2026. Sections marked <span style="background:#fef9c3;padding:1px 6px;border-radius:3px;font-size:0.78rem;font-weight:600;color:#854d0e">Pending data</span> will be completed once remaining access is confirmed. All other recommendations are data-backed and ready for action.</p>
+  </div>
+
+  <!-- IMMEDIATE ACTIONS -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--navy);margin-bottom:1rem">Immediate actions <span style="font-size:0.72rem;font-weight:500;color:var(--rose);font-family:'DM Mono',monospace;letter-spacing:0.08em">within 30 days</span></h3>
+  <div class="g3" style="margin-bottom:1.75rem">
+    <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:1.25rem;border-top:3px solid var(--rose)">
+      <div style="font-size:0.65rem;font-weight:700;color:var(--rose);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem">Content · All Platforms</div>
+      <h4 style="font-size:0.92rem;font-weight:600;color:var(--navy);margin-bottom:0.5rem;line-height:1.3">Stop publishing shared/reposted posts on Facebook</h4>
+      <p style="font-size:0.8rem;color:var(--muted);line-height:1.6">194 shared posts average 3.9 engagement — 33× lower than video and 26× lower than images. They actively dilute the page's algorithmic standing. Redirect this content slot to original posts or discontinue entirely.</p>
+    </div>
+    <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:1.25rem;border-top:3px solid var(--rose)">
+      <div style="font-size:0.65rem;font-weight:700;color:var(--rose);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem">Scheduling · All Platforms</div>
+      <h4 style="font-size:0.92rem;font-weight:600;color:var(--navy);margin-bottom:0.5rem;line-height:1.3">Implement platform-differentiated posting schedule</h4>
+      <p style="font-size:0.8rem;color:var(--muted);line-height:1.6">Current tool publishes all platforms at 5–8am simultaneously. Optimal windows: Facebook Sat/Thu 8–10am · Instagram Thu 7–9am · LinkedIn Tue–Thu 7–9am. Simple scheduling tool reconfiguration — no new content required.</p>
+    </div>
+    <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:1.25rem;border-top:3px solid var(--rose)">
+      <div style="font-size:0.65rem;font-weight:700;color:var(--rose);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem">Community · Facebook</div>
+      <h4 style="font-size:0.92rem;font-weight:600;color:var(--navy);margin-bottom:0.5rem;line-height:1.3">Establish comment monitoring protocol for policy posts</h4>
+      <p style="font-size:0.8rem;color:var(--muted);line-height:1.6">Negative comments on the cash reduction law consultation (31 negative), loan/interest posts, and app login issues are publicly visible and unanswered. A 48-hour response protocol for flagged negative comments would reduce reputational exposure.</p>
+    </div>
+    <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:1.25rem;border-top:3px solid var(--rose)">
+      <div style="font-size:0.65rem;font-weight:700;color:var(--rose);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem">Content · LinkedIn</div>
+      <h4 style="font-size:0.92rem;font-weight:600;color:var(--navy);margin-bottom:0.5rem;line-height:1.3">Cap LinkedIn posting at 16–20 posts/month</h4>
+      <p style="font-size:0.8rem;color:var(--muted);line-height:1.6">The data confirms that reducing from 33.8 to 16.4 posts/month drove a 5.6× engagement increase. Continuing to post at high volume would reverse this improvement. Prioritise quality over quantity — institutional milestones and governor events.</p>
+    </div>
+    <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:1.25rem;border-top:3px solid var(--rose)">
+      <div style="font-size:0.65rem;font-weight:700;color:var(--rose);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem">Content · Facebook + Instagram</div>
+      <h4 style="font-size:0.92rem;font-weight:600;color:var(--navy);margin-bottom:0.5rem;line-height:1.3">Double video production for consumer protection content</h4>
+      <p style="font-size:0.8rem;color:var(--muted);line-height:1.6">8 of the top 10 posts across all platforms are consumer protection / financial fraud content in video format. The Aug 2024 fraud awareness video is the clearest template. Repurpose existing fraud awareness scripts into short video format (under 60 seconds, accessible Arabic).</p>
+    </div>
+    <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:1.25rem;border-top:3px solid var(--rose)">
+      <div style="font-size:0.65rem;font-weight:700;color:var(--rose);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem">Strategy · X / Twitter</div>
+      <h4 style="font-size:0.92rem;font-weight:600;color:var(--navy);margin-bottom:0.5rem;line-height:1.3">Decision required — X/Twitter strategic direction</h4>
+      <p style="font-size:0.8rem;color:var(--muted);line-height:1.6">With 47 average views/tweet and near-zero retweet activity, X generates no measurable impact. PMA should decide: (A) Define an X-specific strategy for real-time announcements/crisis communication, or (B) Reduce to maintenance-only posting and reallocate time to higher-performing platforms.</p>
+    </div>
+  </div>
+
+  <!-- STRATEGIC PRIORITIES -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--navy);margin-bottom:1rem">Strategic priorities <span style="font-size:0.72rem;font-weight:500;color:var(--amber);font-family:'DM Mono',monospace;letter-spacing:0.08em">60–180 days</span></h3>
+  <div class="g2" style="margin-bottom:1.75rem">
+    <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:1.25rem;border-top:3px solid var(--amber)">
+      <div style="font-size:0.65rem;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem">Platform · YouTube</div>
+      <h4 style="font-size:0.92rem;font-weight:600;color:var(--navy);margin-bottom:0.5rem;line-height:1.3">Activate YouTube as a long-form content repository</h4>
+      <p style="font-size:0.8rem;color:var(--muted);line-height:1.6">1,150 subscribers after 13 years reflects near-zero investment in the channel. The top video (10,160 views) demonstrates genuine audience demand for financial explainer content. Strategy: republish existing high-performing social videos, create 3–5 series (iBURAQ tutorials, financial fraud prevention, financial literacy), target 2–4 uploads/month. Cross-promote from Facebook and Instagram to build subscriber base.</p>
+    </div>
+    <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:1.25rem;border-top:3px solid var(--amber)">
+      <div style="font-size:0.65rem;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem">Account · Monshati</div>
+      <h4 style="font-size:0.92rem;font-weight:600;color:var(--navy);margin-bottom:0.5rem;line-height:1.3">Strategic review of Monshati's digital presence</h4>
+      <p style="font-size:0.8rem;color:var(--muted);line-height:1.6">Monshati is near-dormant across Facebook (21.6 avg engagement, inactive since Oct 2023), Instagram (5.9 avg), and X (silent since mid-2023). The account's content (SME support, financing programmes) underperforms all other brand pages. Options: (A) Relaunch with a focused content strategy around MSE success stories and iBURAQ adoption, (B) Consolidate Monshati content under PMA Core, or (C) Maintain as a programme-specific archive only.</p>
+    </div>
+    <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:1.25rem;border-top:3px solid var(--amber)">
+      <div style="font-size:0.65rem;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem">Content · Cross-Platform</div>
+      <h4 style="font-size:0.92rem;font-weight:600;color:var(--navy);margin-bottom:0.5rem;line-height:1.3">Build a cross-platform content calendar around proven themes</h4>
+      <p style="font-size:0.8rem;color:var(--muted);line-height:1.6">Consumer protection and financial fraud awareness content is the single most reliable engagement driver across all platforms simultaneously. Formalise a quarterly content calendar with: monthly financial safety video (FB+IG+LI), weekly fraud alert image (FB+IG), bi-monthly regulatory explainer (LI), and CYBW campaign plan (Apr–May). Measure cross-platform uplift after each coordinated campaign.</p>
+    </div>
+    <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:1.25rem;border-top:3px solid var(--amber)">
+      <div style="font-size:0.65rem;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem">Audience · Facebook + Instagram</div>
+      <h4 style="font-size:0.92rem;font-weight:600;color:var(--navy);margin-bottom:0.5rem;line-height:1.3">Address the female audience gap on Facebook</h4>
+      <p style="font-size:0.8rem;color:var(--muted);line-height:1.6">Facebook audience is 67.8% male — significantly skewed compared to Instagram's 55.1% male. Instagram's more gender-balanced audience (44.9% female) suggests that women are engaging with PMA content on IG but not converting to Facebook fans. Consider: women-targeted financial inclusion content, mobile wallet adoption messaging, and Banking Awareness Platform cross-promotion on Facebook to improve gender balance.</p>
+    </div>
+  </div>
+
+  <!-- PENDING -->
+  <h3 style="font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--navy);margin-bottom:1rem">Pending additional data <span style="background:#fef9c3;padding:2px 8px;border-radius:4px;font-size:0.68rem;font-weight:700;color:#854d0e;font-family:'DM Mono',monospace;letter-spacing:0.08em">to be completed</span></h3>
+  <div class="g3">
+    <div style="background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:1.25rem">
+      <div style="font-size:0.65rem;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem">Pending · Benchmarking</div>
+      <h4 style="font-size:0.88rem;font-weight:600;color:var(--navy);margin-bottom:0.4rem;line-height:1.3">Competitive positioning vs peer institutions</h4>
+      <p style="font-size:0.79rem;color:var(--muted);line-height:1.6">Recommendations for how PMA Core, Banking Awareness, and CYBW should position relative to comparable central banks, financial authorities, and financial inclusion platforms in MENA. Requires benchmarking accounts from PMA.</p>
+    </div>
+    <div style="background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:1.25rem">
+      <div style="font-size:0.65rem;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem">Pending · Paid Media</div>
+      <h4 style="font-size:0.88rem;font-weight:600;color:var(--navy);margin-bottom:0.4rem;line-height:1.3">Meta Ads strategy and budget allocation</h4>
+      <p style="font-size:0.79rem;color:var(--muted);line-height:1.6">Full paid media recommendations including budget allocation across objectives (reach, engagement, link click, video views), targeting parameters based on audience demographics, and campaign calendar aligned with organic content themes. Requires demographic breakdown report and campaign history review.</p>
+    </div>
+    <div style="background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:1.25rem">
+      <div style="font-size:0.65rem;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem">Pending · GA4 / pma.ps</div>
+      <h4 style="font-size:0.88rem;font-weight:600;color:var(--navy);margin-bottom:0.4rem;line-height:1.3">Website traffic and social referral optimisation</h4>
+      <p style="font-size:0.79rem;color:var(--muted);line-height:1.6">Recommendations for social-to-website traffic conversion, top landing pages receiving social referrals, content gaps between social and web audiences, and SEO/content alignment. Requires GA4 access for pma.ps — currently deferred.</p>
+    </div>
   </div>
 </div>
 
@@ -1293,10 +1568,10 @@ a.view-link:hover { text-decoration: underline; }
     <div class="g2" style="gap:1.25rem">
       <div>
         <p style="font-size:0.82rem;color:var(--ink);line-height:1.75">
-          This dashboard and the associated HTML report are deliberately framed as <strong>"initial findings"</strong> rather than a comprehensive analysis. This framing is intentional and reflects the fact that private platform data access (reach, impressions, follower timelines, Stories, video completion rates) is not yet confirmed across all accounts.
+          This dashboard represents <strong>current findings as of April 2026</strong> — the primary and sole deliverable under Tender P2025/34. Findings are based on all data received to date: native platform exports, public post scrapes, Meta Ads Manager, and audience insights. Where data access is pending (reach, impressions for some platforms, YouTube Studio, X Analytics), this is disclosed explicitly within the relevant section.
         </p>
         <p style="font-size:0.82rem;color:var(--ink);line-height:1.75;margin-top:0.75rem">
-          The <strong>recommendations section</strong> has been withheld from the current iteration of the HTML report and dashboard. It will be reinstated once: (1) native platform exports are received for all accounts; (2) PMA strategy and brand guidelines are shared with SSA; and (3) the benchmarking accounts are provided for competitive comparison.
+          A dedicated <strong>Recommendations</strong> section is included in this dashboard. Strategic and tactical recommendations will be progressively enriched as: (1) remaining native platform exports are confirmed for all accounts; (2) PMA strategy and brand guidelines are shared with SSA; and (3) benchmarking comparator accounts are provided by PMA.
         </p>
         <p style="font-size:0.82rem;color:var(--ink);line-height:1.75;margin-top:0.75rem">
           All data gaps are surfaced explicitly in the relevant report sections rather than silently omitted. This is a deliberate reporting principle — PMA stakeholders should be able to distinguish between findings backed by complete data and those based on partial coverage.
@@ -1722,7 +1997,7 @@ new Chart(document.getElementById('portfolioVolChart'),{type:'line',data:{labels
 const acctList=[{key:'PMA Core',cls:'pma'},{key:'Banking Awareness',cls:'ba'},{key:'CYBW',cls:'cybw'},{key:'Monshati',cls:'mon'}];
 document.getElementById('acct-cards').innerHTML=acctList.map(a=>{
   const d=M.accounts[a.key];
-  return`<div class="acct-card ${a.cls}" onclick="filterAcct('${a.key}',this)">
+  return`<div class="acct-card ${a.cls}" onclick="highlightAcct(this)">
     <div class="ac-name">${a.key}</div>
     <div class="ac-val">${d.fb.avg_eng}</div>
     <div class="ac-lbl">FB avg eng/post</div>
@@ -1775,7 +2050,7 @@ document.getElementById('acct-matrix-body').innerHTML=matrixRows.map(r=>{
   </tr>`;
 }).join('');
 
-function filterAcct(name,el){
+function highlightAcct(el){
   document.querySelectorAll('.acct-card').forEach(c=>c.classList.remove('active-card'));
   el.classList.add('active-card');
 }
@@ -1846,7 +2121,7 @@ document.getElementById('ig-top-posts').innerHTML=M.top_posts.ig.slice(0,7).map(
 
 // ── LINKEDIN ──────────────────────────────────────────────────────────
 const liMonths=M.li_eng_monthly.months;
-new Chart(document.getElementById('liVolChart'),{type:'bar',data:{labels:liMonths,datasets:[{data:M.li_eng_monthly.total.map((v,i)=>v>0?v:null),backgroundColor:liMonths.map(m=>m.startsWith('2023')?'#0a66c244':m.startsWith('2024')?'#0a66c288':'#0a66c2cc'),borderRadius:3,borderSkipped:false}]},options:{...co,scales:mkAx(null,'total engagement')}});
+new Chart(document.getElementById('liVolChart'),{type:'bar',data:{labels:liMonths,datasets:[{data:M.li_eng_monthly.total.map((v,i)=>v>0?v:null),backgroundColor:liMonths.map(m=>m.startsWith('2023')?'#0a66c244':m.startsWith('2024')?'#0a66c288':'#0a66c2cc'),borderRadius:3,borderSkipped:false}]},options:{...co,scales:mkAx(null,'total engagement'),plugins:{legend:{display:false},tooltip:{callbacks:{afterBody:ctx=>['Avg/post: '+M.li_eng_monthly.avg[ctx[0].dataIndex]]}}}}})
 
 const liYrs=['2023','2024','2025','2026'];
 new Chart(document.getElementById('liYearChart'),{type:'bar',data:{labels:liYrs.map(y=>`${y} (n=${M.li_years[y].count})`),datasets:[
@@ -1953,6 +2228,125 @@ new Chart(document.getElementById('crossVolChart'),{type:'bar',data:{labels:mont
   {label:'LinkedIn',data:cpLI,backgroundColor:'#0a66c2bb',stack:'p',borderSkipped:false},
   {label:'X',data:cpTW,backgroundColor:'#374151bb',stack:'p',borderSkipped:false},
 ]},options:{...co,plugins:{legend:{display:true,position:'top',labels:{color:lc,font:{size:11},usePointStyle:true,pointStyleWidth:8}}},scales:{x:{stacked:true,ticks:{color:lc,font:{size:8},maxRotation:45,autoSkip:true,maxTicksLimit:16},grid:{display:false}},y:{stacked:true,ticks:{color:lc,font:{size:9}},grid:{color:grid}}}}});
+
+
+// ── AUDIENCE + ADS DATA ──────────────────────────────────────────────
+const AUD = {"fb":{"age_gender":{"18-24":{"men":4.2,"women":2.3},"25-34":{"men":25.8,"women":14.9},"35-44":{"men":23.9,"women":9.9},"45-54":{"men":9.9,"women":3.6},"55-64":{"men":3.0,"women":1.1},"65+":{"men":1.0,"women":0.4}},"cities":[["Gaza",16.2],["Ramallah",13.6],["Nablus",9.3],["Hebron",8.8],["Jenin",4.2],["Tulkarm",4.0],["Khan Yunis",3.8],["Bethlehem",2.7],["Jerusalem",2.2],["Cairo",1.2]],"countries":[["Palestine",81.8],["Israel",7.6],["Egypt",2.5],["Jordan",1.4],["United States",1.1],["United Arab Emirates",0.8],["Saudi Arabia",0.6],["Turkey",0.4],["Belgium",0.3],["Germany",0.3]],"gender_total":{"men":67.8,"women":32.2}},"ig":{"age_gender":{"18-24":{"men":7.1,"women":7.4},"25-34":{"men":22.9,"women":22.2},"35-44":{"men":16.8,"women":10.8},"45-54":{"men":6.1,"women":3.4},"55-64":{"men":1.8,"women":0.8},"65+":{"men":0.4,"women":0.3}},"cities":[["Ramallah",15.9],["Gaza",12.0],["Nablus",6.5],["Hebron",4.7],["Khan Yunis",4.7],["Abu Qash",2.1],["Tulkarm",2.0],["Maghazi",2.0],["Bureij",1.7],["Jenin",1.7]],"countries":[["Palestine",78.0],["Israel",8.0],["Egypt",2.3],["Jordan",1.1],["United States",1.0],["United Arab Emirates",0.6],["Saudi Arabia",0.4],["India",0.4],["Algeria",0.4],["Iraq",0.3]],"gender_total":{"men":55.1,"women":44.9},"follower_gains":{"dates":["2026-01-01","2026-01-02","2026-01-03","2026-01-04","2026-01-05","2026-01-06","2026-01-07","2026-01-08","2026-01-09","2026-01-10","2026-01-11","2026-01-12","2026-01-13","2026-01-14","2026-01-15","2026-01-16","2026-01-17","2026-01-18","2026-01-19","2026-01-20","2026-01-21","2026-01-22","2026-01-23","2026-01-24","2026-01-25","2026-01-26","2026-01-27","2026-01-28","2026-01-29","2026-01-30","2026-01-31","2026-02-01","2026-02-02","2026-02-03","2026-02-04","2026-02-05","2026-02-06","2026-02-07","2026-02-08","2026-02-09","2026-02-10","2026-02-11","2026-02-12","2026-02-13","2026-02-14","2026-02-15","2026-02-16","2026-02-17","2026-02-18","2026-02-19","2026-02-20","2026-02-21","2026-02-22","2026-02-23","2026-02-24","2026-02-25","2026-02-26","2026-02-27","2026-02-28","2026-03-01","2026-03-02","2026-03-03","2026-03-04","2026-03-05","2026-03-06","2026-03-07","2026-03-08","2026-03-09","2026-03-10","2026-03-11","2026-03-12","2026-03-13","2026-03-14","2026-03-15","2026-03-16","2026-03-17","2026-03-18","2026-03-19","2026-03-20","2026-03-21","2026-03-22","2026-03-23","2026-03-24","2026-03-25","2026-03-26","2026-03-27","2026-03-28","2026-03-29","2026-03-30","2026-03-31","2026-04-01","2026-04-02","2026-04-03","2026-04-04","2026-04-05"],"values":[15,13,10,16,8,14,11,10,9,12,44,293,80,55,50,63,14,21,12,23,13,7,6,11,10,18,12,24,14,10,10,13,16,10,13,10,5,14,13,12,25,11,12,14,9,16,33,17,4,4,5,4,32,6,12,24,9,7,24,5,10,5,7,2,5,4,6,16,8,9,8,9,4,14,10,11,41,9,5,6,6,4,4,8,10,4,9,5,10,146,12,13,4,5,1]}},"ads":{"total_spend":4923.67,"total_impressions":20075249,"total_reach":8320273,"total_campaigns":94,"active":3,"avg_cpr":0.0439,"spend_by_year":{"2021":0.0,"2023":2055.06,"2024":215.71,"2025":1786.84,"2026":866.06},"count_by_year":{"2021":1,"2023":62,"2024":1,"2025":17,"2026":13},"objective_breakdown":{"Link Clicks":32,"Post Engagement":15,"Video ThruPlay":8,"Reach":5,"Landing Page View":4,"Other":2},"top_campaigns":[{"name":"iDplus/ campaign/ 2025","spend":999.8,"impressions":3979796,"reach":722161,"results":36706,"objective":"actions:link_click","cpr":0.0272,"status":"archived","year":2025},{"name":"iDplus Videos 1/2026","spend":500.0,"impressions":1474212,"reach":411570,"results":26098,"objective":"actions:omni_landing_page_view","cpr":0.0192,"status":"inactive","year":2026},{"name":"Cashless Law/PMA","spend":249.97,"impressions":489809,"reach":175578,"results":15629,"objective":"actions:post_engagement","cpr":0.016,"status":"completed","year":2025},{"name":"ترويج فيديو التوعية بالاحتيال المالي","spend":215.71,"impressions":1500310,"reach":967048,"results":967048,"objective":"reach","cpr":0.2231,"status":"inactive","year":2024},{"name":"Post: ‎\"‎مشروعك جاهز للحصول على تمويل؟ تعرفوا معنا على...‎\"‎","spend":200.0,"impressions":251571,"reach":64879,"results":200462,"objective":"video_thruplay_watched_actions","cpr":0.001,"status":"inactive","year":2023},{"name":"المنشور: ‏\"‏بدك طريقة سريعة وموثوقة للتحقق من صحة الشيكات؟‏\"‏","spend":200.0,"impressions":508807,"reach":217230,"results":22898,"objective":"actions:link_click","cpr":0.0087,"status":"inactive","year":2023},{"name":"Gaza / Pma Gov  Post","spend":100.0,"impressions":869860,"reach":607769,"results":607769,"objective":"reach","cpr":0.1645,"status":"inactive","year":2025},{"name":"اللقاء الدولي لبحث أزمة تكدس الشيكل والمقاصة","spend":100.0,"impressions":988221,"reach":355506,"results":355506,"objective":"reach","cpr":0.2813,"status":"completed","year":2026},{"name":"Post: ‎\"‎#الكاش_بيكلفك‎\"‎","spend":100.0,"impressions":81131,"reach":47813,"results":61476,"objective":"video_thruplay_watched_actions","cpr":0.0016,"status":"inactive","year":2023},{"name":"المنشور: ‏\"‏مشروعك جاهز للحصول على تمويل؟ تعرفوا معنا على...‏\"‏","spend":100.0,"impressions":336012,"reach":67748,"results":17005,"objective":"video_thruplay_watched_actions","cpr":0.0059,"status":"inactive","year":2023}]}};
+
+// ── MOBILE SIDEBAR TOGGLE ────────────────────────────────────────────
+function toggleSidebar(){
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('sidebarOverlay');
+  sb.classList.toggle('open');
+  ov.classList.toggle('open');
+}
+
+// ── CROSS-PLATFORM ENGAGEMENT CHART ─────────────────────────────────
+new Chart(document.getElementById('crossEngChart'),{type:'line',data:{labels:M.fb_eng_monthly.months,datasets:[
+  {label:'Facebook',data:M.fb_eng_monthly.total,borderColor:'#1877f2',backgroundColor:'#1877f215',fill:true,tension:0.35,pointRadius:1,borderWidth:2},
+  {label:'Instagram',data:M.ig_eng_monthly.total,borderColor:'#e1306c',backgroundColor:'#e1306c15',fill:true,tension:0.35,pointRadius:1,borderWidth:2},
+  {label:'LinkedIn',data:M.li_eng_monthly.total,borderColor:'#0a66c2',backgroundColor:'#0a66c215',fill:true,tension:0.35,pointRadius:1,borderWidth:2},
+]},options:{...co,plugins:{legend:{display:true,position:'top',labels:{color:lc,font:{size:11},usePointStyle:true,pointStyleWidth:8}}},scales:mkAx(null,'total engagement')}});
+
+// ── IG vs FB SENTIMENT COMPARISON CHART ─────────────────────────────
+new Chart(document.getElementById('igVsFbSentChart'),{type:'bar',data:{
+  labels:['PMA Core','Banking Awareness','CYBW','Monshati'],
+  datasets:[
+    {label:'FB Sentiment Score',data:[0.078,0.147,0.142,0.129],backgroundColor:'#1877f2cc',borderRadius:4,borderSkipped:false},
+    {label:'IG Pos. Comment Rate',data:[0.35,0.45,0.42,0.28],backgroundColor:'#e1306ccc',borderRadius:4,borderSkipped:false},
+  ]
+},options:{...co,plugins:{legend:{display:true,position:'top',labels:{color:lc,font:{size:11},usePointStyle:true,pointStyleWidth:8}}},scales:{x:{ticks:{color:lc,font:{size:10}},grid:{display:false}},y:{ticks:{color:lc,font:{size:9}},grid:{color:grid}}}}});
+
+// ── IG SENTIMENT TOP POSTS ──────────────────────────────────────────
+const igSentPosts = M.top_posts.ig.filter(p=>p.scraped_comments>0&&p.sentiment_score>0.1).slice(0,5);
+document.getElementById('ig-sent-posts').innerHTML = igSentPosts.length ? igSentPosts.map((p,i)=>`
+<div class="tp">
+  <div class="tp-rank">#${i+1}</div>
+  <div class="tp-eng" style="font-size:1.1rem">${p.total_engagement.toLocaleString()}</div>
+  <div>
+    <div class="tp-meta">${nameMap[p.account]||p.account} &nbsp;·&nbsp; ${p.date} &nbsp; ${sentBadge(p.sentiment_score)}</div>
+    <div class="tp-text">${(p.caption||'').substring(0,110)}${(p.caption||'').length>110?'…':''}</div>
+    <div class="tp-sub">❤️ ${p.likes} &nbsp;💬 ${p.comments} &nbsp;·&nbsp; ${p.pos_comments} pos / ${p.neg_comments} neg scraped comments</div>
+  </div>
+</div>`).join('') : '<p style="color:var(--muted);font-size:0.82rem;padding:1rem 0">No Instagram posts with sufficient comment data and positive sentiment score found.</p>';
+
+// ── META ADS CHARTS ──────────────────────────────────────────────────
+const adsYears = Object.keys(AUD.ads.spend_by_year).sort();
+new Chart(document.getElementById('adsSpendChart'),{type:'bar',data:{
+  labels:adsYears,
+  datasets:[{data:adsYears.map(y=>AUD.ads.spend_by_year[y]||0),backgroundColor:'#10b981cc',borderRadius:5,borderSkipped:false}]
+},options:{...co,scales:{x:{ticks:{color:lc,font:{size:10}},grid:{display:false}},y:{ticks:{color:lc,font:{size:9},callback:v=>'$'+v},grid:{color:grid}}}}});
+
+const objLabels=Object.keys(AUD.ads.objective_breakdown);
+const objVals=Object.values(AUD.ads.objective_breakdown);
+new Chart(document.getElementById('adsObjChart'),{type:'doughnut',data:{
+  labels:objLabels,
+  datasets:[{data:objVals,backgroundColor:['#10b981cc','#0a66c2cc','#f97316cc','#c0394bcc','#7c3aedcc','#374151cc'],borderWidth:2,borderColor:'white'}]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'right',labels:{color:lc,font:{size:10},usePointStyle:true,pointStyleWidth:8,padding:10}}}}});
+
+const objShort={'actions:link_click':'Link Click','actions:post_engagement':'Post Engagement','video_thruplay_watched_actions':'Video ThruPlay','reach':'Reach','actions:omni_landing_page_view':'Landing Page','actions:onsite_conversion.messaging_conversation_started_7d':'Messaging','actions:like':'Like'};
+document.getElementById('ads-campaigns-table').innerHTML=AUD.ads.top_campaigns.map(c=>{
+  const st=c.status==='active'?'high':c.status==='completed'?'med':'low';
+  const nm=c.name.length>55?c.name.substring(0,55)+'…':c.name;
+  return`<tr>
+    <td style="max-width:220px;font-size:0.78rem">${nm}</td>
+    <td><span style="font-size:0.68rem;color:var(--muted)">${objShort[c.objective]||c.objective}</span></td>
+    <td class="num" style="font-weight:600">$${c.spend.toFixed(2)}</td>
+    <td class="num">${c.impressions.toLocaleString()}</td>
+    <td class="num">${c.results.toLocaleString()}</td>
+    <td class="num">$${c.cpr.toFixed(3)}</td>
+    <td><span class="tag ${st}">${c.status}</span></td>
+  </tr>`;
+}).join('');
+
+// ── AUDIENCE CHARTS ──────────────────────────────────────────────────
+const ageBands=['18-24','25-34','35-44','45-54','55-64','65+'];
+new Chart(document.getElementById('fbAgeChart'),{type:'bar',data:{
+  labels:ageBands,
+  datasets:[
+    {label:'Men',data:ageBands.map(b=>AUD.fb.age_gender[b]?.men||0),backgroundColor:'#1877f2cc',borderRadius:3,borderSkipped:false},
+    {label:'Women',data:ageBands.map(b=>AUD.fb.age_gender[b]?.women||0),backgroundColor:'#e1306ccc',borderRadius:3,borderSkipped:false},
+  ]
+},options:{...co,plugins:{legend:{display:true,position:'top',labels:{color:lc,font:{size:11},usePointStyle:true,pointStyleWidth:8}}},scales:{x:{ticks:{color:lc,font:{size:10}},grid:{display:false}},y:{ticks:{color:lc,font:{size:9},callback:v=>v+'%'},grid:{color:grid}}}}});
+
+new Chart(document.getElementById('igAgeChart'),{type:'bar',data:{
+  labels:ageBands,
+  datasets:[
+    {label:'Men',data:ageBands.map(b=>AUD.ig.age_gender[b]?.men||0),backgroundColor:'#7c3aedcc',borderRadius:3,borderSkipped:false},
+    {label:'Women',data:ageBands.map(b=>AUD.ig.age_gender[b]?.women||0),backgroundColor:'#e1306ccc',borderRadius:3,borderSkipped:false},
+  ]
+},options:{...co,plugins:{legend:{display:true,position:'top',labels:{color:lc,font:{size:11},usePointStyle:true,pointStyleWidth:8}}},scales:{x:{ticks:{color:lc,font:{size:10}},grid:{display:false}},y:{ticks:{color:lc,font:{size:9},callback:v=>v+'%'},grid:{color:grid}}}}});
+
+const fbCities=AUD.fb.cities.map(x=>x[0]);
+const fbCityVals=AUD.fb.cities.map(x=>x[1]);
+const igCities=AUD.ig.cities.map(x=>x[0]);
+const igCityVals=AUD.ig.cities.map(x=>x[1]);
+const allCities=[...new Set([...fbCities,...igCities])].slice(0,10);
+new Chart(document.getElementById('cityChart'),{type:'bar',data:{
+  labels:allCities,
+  datasets:[
+    {label:'Facebook',data:allCities.map(x=>{const i=fbCities.indexOf(x);return i>=0?fbCityVals[i]:0;}),backgroundColor:'#1877f2cc',borderRadius:3,borderSkipped:false},
+    {label:'Instagram',data:allCities.map(x=>{const i=igCities.indexOf(x);return i>=0?igCityVals[i]:0;}),backgroundColor:'#e1306ccc',borderRadius:3,borderSkipped:false},
+  ]
+},options:{...co,plugins:{legend:{display:true,position:'top',labels:{color:lc,font:{size:11},usePointStyle:true,pointStyleWidth:8}}},scales:{x:{ticks:{color:lc,font:{size:9},maxRotation:30},grid:{display:false}},y:{ticks:{color:lc,font:{size:9},callback:v=>v+'%'},grid:{color:grid}}}}});
+
+const fbCountries=AUD.fb.countries.map(x=>x[0]);
+const fbCountryVals=AUD.fb.countries.map(x=>x[1]);
+const igCountries=AUD.ig.countries.map(x=>x[0]);
+const igCountryVals=AUD.ig.countries.map(x=>x[1]);
+const allCountries=[...new Set([...fbCountries,...igCountries])].slice(0,10);
+new Chart(document.getElementById('countryChart'),{type:'bar',data:{
+  labels:allCountries,
+  datasets:[
+    {label:'Facebook',data:allCountries.map(x=>{const i=fbCountries.indexOf(x);return i>=0?fbCountryVals[i]:0;}),backgroundColor:'#1877f2cc',borderRadius:3,borderSkipped:false},
+    {label:'Instagram',data:allCountries.map(x=>{const i=igCountries.indexOf(x);return i>=0?igCountryVals[i]:0;}),backgroundColor:'#e1306ccc',borderRadius:3,borderSkipped:false},
+  ]
+},options:{...co,plugins:{legend:{display:true,position:'top',labels:{color:lc,font:{size:11},usePointStyle:true,pointStyleWidth:8}}},scales:{x:{ticks:{color:lc,font:{size:9},maxRotation:30},grid:{display:false}},y:{ticks:{color:lc,font:{size:9},callback:v=>v+'%'},grid:{color:grid}}}}});
+
+new Chart(document.getElementById('igFollowChart'),{type:'bar',data:{
+  labels:AUD.ig.follower_gains.dates,
+  datasets:[{data:AUD.ig.follower_gains.values,backgroundColor:'#e1306ccc',borderRadius:2,borderSkipped:false}]
+},options:{...co,scales:{x:{ticks:{color:lc,font:{size:8},maxRotation:45,autoSkip:true,maxTicksLimit:16},grid:{display:false}},y:{ticks:{color:lc,font:{size:9}},grid:{color:grid},title:{display:true,text:'new followers/day',color:lc,font:{size:9}}}}}});
 
 </script>
 </body>
