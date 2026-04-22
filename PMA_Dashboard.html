@@ -905,6 +905,65 @@ a.view-link:hover { text-decoration: underline; }
       </tbody>
     </table>
   </div>
+
+  <!-- ── TOP CONTENT: FACEBOOK ─────────────────────────────────────── -->
+  <div style="margin-top:2rem;margin-bottom:0.5rem">
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem">
+      <div style="width:10px;height:10px;border-radius:50%;background:#1877f2;flex-shrink:0"></div>
+      <h3 style="font-family:'DM Serif Display',serif;font-size:1.25rem;color:var(--navy)">Top performing content — Facebook</h3>
+    </div>
+    <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1.25rem">Top 15 posts by total engagement (reactions + comments + shares) · 2023–2026 · All 4 accounts · Click any post title to open the original.</p>
+  </div>
+
+  <!-- Filter tabs -->
+  <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1.25rem" id="fb-content-tabs">
+    <button class="cp-tab active" onclick="filterContentPosts('fb','all',this)" style="font-size:0.75rem;font-weight:600;padding:0.35rem 0.9rem;border:1.5px solid #1877f2;border-radius:6px;cursor:pointer;background:#1877f2;color:white">All accounts</button>
+    <button class="cp-tab" onclick="filterContentPosts('fb','PMA Core',this)" style="font-size:0.75rem;font-weight:600;padding:0.35rem 0.9rem;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;background:white;color:var(--muted)">PMA Core</button>
+    <button class="cp-tab" onclick="filterContentPosts('fb','Banking Awareness',this)" style="font-size:0.75rem;font-weight:600;padding:0.35rem 0.9rem;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;background:white;color:var(--muted)">Banking Awareness</button>
+    <button class="cp-tab" onclick="filterContentPosts('fb','CYBW',this)" style="font-size:0.75rem;font-weight:600;padding:0.35rem 0.9rem;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;background:white;color:var(--muted)">CYBW</button>
+    <button class="cp-tab" onclick="filterContentPosts('fb','Monshati',this)" style="font-size:0.75rem;font-weight:600;padding:0.35rem 0.9rem;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;background:white;color:var(--muted)">Monshati</button>
+    <div style="display:flex;gap:0.4rem;margin-left:0.5rem">
+      <button class="cp-type-tab active" onclick="filterContentType('fb','all',this)" style="font-size:0.72rem;font-weight:600;padding:0.3rem 0.75rem;border:1.5px solid var(--border);border-radius:5px;cursor:pointer;background:var(--ice);color:var(--navy)">All types</button>
+      <button class="cp-type-tab" onclick="filterContentType('fb','video',this)" style="font-size:0.72rem;font-weight:600;padding:0.3rem 0.75rem;border:1.5px solid var(--border);border-radius:5px;cursor:pointer;background:white;color:var(--muted)">Video only</button>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:2rem">
+    <div id="fb-content-posts"></div>
+  </div>
+
+  <!-- ── TOP CONTENT: INSTAGRAM ─────────────────────────────────────── -->
+  <div style="margin-top:0.5rem;margin-bottom:0.5rem">
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem">
+      <div style="width:10px;height:10px;border-radius:50%;background:#e1306c;flex-shrink:0"></div>
+      <h3 style="font-family:'DM Serif Display',serif;font-size:1.25rem;color:var(--navy)">Top performing content — Instagram</h3>
+    </div>
+    <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1.25rem">Top 15 posts by total engagement (likes + comments) · 2021–2026 · PMA-owned accounts only · Click any post to open on Instagram.</p>
+  </div>
+
+  <!-- Filter tabs -->
+  <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1.25rem">
+    <button class="ig-cp-tab active" onclick="filterContentPosts('ig','all',this)" style="font-size:0.75rem;font-weight:600;padding:0.35rem 0.9rem;border:1.5px solid #e1306c;border-radius:6px;cursor:pointer;background:#e1306c;color:white">All accounts</button>
+    <button class="ig-cp-tab" onclick="filterContentPosts('ig','PMA Core',this)" style="font-size:0.75rem;font-weight:600;padding:0.35rem 0.9rem;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;background:white;color:var(--muted)">PMA Core</button>
+    <button class="ig-cp-tab" onclick="filterContentPosts('ig','Banking Awareness',this)" style="font-size:0.75rem;font-weight:600;padding:0.35rem 0.9rem;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;background:white;color:var(--muted)">Banking Awareness</button>
+    <button class="ig-cp-tab" onclick="filterContentPosts('ig','CYBW',this)" style="font-size:0.75rem;font-weight:600;padding:0.35rem 0.9rem;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;background:white;color:var(--muted)">CYBW</button>
+    <button class="ig-cp-tab" onclick="filterContentPosts('ig','Monshati',this)" style="font-size:0.75rem;font-weight:600;padding:0.35rem 0.9rem;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;background:white;color:var(--muted)">Monshati</button>
+    <div style="display:flex;gap:0.4rem;margin-left:0.5rem">
+      <button class="ig-type-tab active" onclick="filterContentType('ig','all',this)" style="font-size:0.72rem;font-weight:600;padding:0.3rem 0.75rem;border:1.5px solid var(--border);border-radius:5px;cursor:pointer;background:var(--ice);color:var(--navy)">All types</button>
+      <button class="ig-type-tab" onclick="filterContentType('ig','Video',this)" style="font-size:0.72rem;font-weight:600;padding:0.3rem 0.75rem;border:1.5px solid var(--border);border-radius:5px;cursor:pointer;background:white;color:var(--muted)">Video only</button>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:1.25rem">
+    <div id="ig-content-posts"></div>
+  </div>
+
+  <div class="cl info" style="margin-top:0.25rem">
+    <div class="cl-label">Data note — content performance</div>
+    <p>Facebook engagement = reactions + comments + shares from public scrape (Mar 2023–Mar 2026). Instagram engagement = likes + comments (Jun 2021–Mar 2026, PMA-owned accounts only). Sentiment scores are shown where comment data is available (45% of FB posts, 10% of IG posts). All post links open the original content on the respective platform.</p>
+  </div>
+
+
 </div>
 
 <!-- ════════════════════════════════════════════════════════════════ -->
@@ -2610,6 +2669,106 @@ new Chart(document.getElementById('appVitalsChart'),{type:'bar',data:{
   x:{ticks:{color:lc,font:{size:9}},grid:{display:false}},
   y:{ticks:{color:lc,font:{size:9},callback:v=>v+'%'},grid:{color:grid},title:{display:true,text:'% of sessions',color:lc,font:{size:9}}}
 }}});
+
+
+// ── TOP CONTENT PERFORMANCE DATA ────────────────────────────────────
+const CP = {"fb":[{"account":"PMA Core","type":"image","date":"01/05/2025","text":"أهلنا في قطاع غزة، في حال تعرّضكم لأي استغلال مالي أثناء تنفيذ معاملاتكم المالية اليومية، يمكنكم إبلاغ سلطة النقد من خلال القنوات التالية: • تعبئة نمو","url":"https://www.facebook.com/permalink.php?story_fbid=1066266298880308&id=100064908421882","reactions":2422,"comments":469,"shares":246,"total":3137,"scraped":349,"pos":15,"neg":10,"sentiment":0.014},{"account":"PMA Core","type":"video","date":"08/08/2024","text":"معلوماتكم المصرفية سرية.... لا تشاركوها مع أحد","url":"https://www.facebook.com/permalink.php?story_fbid=875931807913759&id=100064908421882","reactions":2144,"comments":51,"shares":181,"total":2376,"scraped":38,"pos":6,"neg":1,"sentiment":0.132},{"account":"PMA Core","type":"video","date":"09/05/2024","text":"الأهل الكرام في قطاع غزة.. لتجنب تعرضكم للابتزاز عند حاجتكم للسيولة النقدية.. تدعوكم سلطة النقد للاستفادة المجانية من أنظمة المدفوعات والحوالات الفوري","url":"https://www.facebook.com/permalink.php?story_fbid=820651373441803&id=100064908421882","reactions":1937,"comments":262,"shares":108,"total":2307,"scraped":188,"pos":12,"neg":6,"sentiment":0.032},{"account":"PMA Core","type":"image","date":"22/04/2025","text":"البنوك لا تقوم بالتواصل معكم لطلب الإفصاح عن أي بيانات شخصية أو بيانات تتعلق بحساباتكم المصرفية أو أرقام سرية OTP/ CVV سواء عبر الهاتف أو الرسائل النص","url":"https://www.facebook.com/permalink.php?story_fbid=1059112262929045&id=100064908421882","reactions":2038,"comments":69,"shares":125,"total":2232,"scraped":47,"pos":7,"neg":3,"sentiment":0.085},{"account":"PMA Core","type":"image","date":"02/11/2025","text":"سلطة النقد تدعو الجمهور للمشاركة في إبداء الرأي حول مشروع قانون خفض استخدام النقد انطلاقاً من حرصها على تعزيز الشفافية والشراكة مع الجمهور، تدعو سلطة ","url":"https://www.facebook.com/permalink.php?story_fbid=1213890417451228&id=100064908421882","reactions":1113,"comments":581,"shares":36,"total":1730,"scraped":453,"pos":15,"neg":31,"sentiment":-0.035},{"account":"PMA Core","type":"video","date":"09/03/2025","text":"مع iBURAQ الدفع والتحويل أسهل وأسرع… وبدون عمولات! #سلطة_النقد #iBURAQ #الدفع_الإلكتروني #دفع_بكل_سهولة بإمكانكم الوصول لنظام iBURAQ من خلال أي تطبيق ","url":"https://www.facebook.com/permalink.php?story_fbid=1025291222977816&id=100064908421882","reactions":1530,"comments":75,"shares":29,"total":1634,"scraped":51,"pos":5,"neg":1,"sentiment":0.078},{"account":"Banking Awareness","type":"video","date":"08/01/2026","text":"سدّد رسوم بلديتك إلكترونياً واحصل على خصومات إضافية تصل إلى 10% عند الدفع عبر منصة E-SADAD أو من خلال البطاقات البنكية. #خصومات_تشجيعية_بخطوات_دفع_إلك","url":"https://www.facebook.com/permalink.php?story_fbid=1188478236822378&id=100069806386264","reactions":1479,"comments":3,"shares":8,"total":1490,"scraped":1,"pos":0,"neg":0,"sentiment":0.0},{"account":"PMA Core","type":"image","date":"16/04/2025","text":"معلوماتك المصرفية سرية، لا تشاركها مع أحد #الاحتيال_المالي #سلطةـالنقد","url":"https://www.facebook.com/permalink.php?story_fbid=1054426943397577&id=100064908421882","reactions":1316,"comments":62,"shares":69,"total":1447,"scraped":39,"pos":12,"neg":2,"sentiment":0.256},{"account":"PMA Core","type":"image","date":"23/06/2025","text":"يمكن للمواطنين الإبلاغ عن مخالفة تعليمات سلطة النقد أو الاستغلال من خلال تعبئة النموذج في الرابط https://complaints.pma.ps/violations أو من خلال قسم م","url":"https://www.facebook.com/permalink.php?story_fbid=1104183998421871&id=100064908421882","reactions":1116,"comments":199,"shares":77,"total":1392,"scraped":147,"pos":3,"neg":13,"sentiment":-0.068},{"account":"Banking Awareness","type":"video","date":"23/02/2026","text":"احصل الآن على خصم إضافي بنسبة 5% عند تسديد ضريبة الأملاك عبر E-SADAD من خلال أي تطبيق بنكي أو محفظة إلكترونية. وفّر أكثر وسدّد أسهل #الشمول_المالي_ #م","url":"https://www.facebook.com/permalink.php?story_fbid=1225944773075724&id=100069806386264","reactions":1226,"comments":3,"shares":7,"total":1236,"scraped":3,"pos":1,"neg":0,"sentiment":0.333},{"account":"PMA Core","type":"image","date":"28/01/2025","text":"أهلنا في قطاع غزة نظراً لعدم توفر السيولة النقدية بإمكانكم استخدام نظام الدفع الفوري iBURAQ، لتحويل الأموال بين الحسابات البنكية ودفع أثمان مشترياتكم ","url":"https://www.facebook.com/permalink.php?story_fbid=995935302580075&id=100064908421882","reactions":1025,"comments":113,"shares":10,"total":1148,"scraped":87,"pos":7,"neg":1,"sentiment":0.069},{"account":"Banking Awareness","type":"image","date":"30/12/2025","text":"سدد رسوم بلديتك إلكترونياً واحصل على خصومات إضافية تصل إلى 10% عند الدفع عبر منصة E-SADAD أو من خلال البطاقات البنكية. #خصومات_تشجيعية_بخطوات_دفع_إلكت","url":"https://www.facebook.com/permalink.php?story_fbid=1181838427486359&id=100069806386264","reactions":1117,"comments":4,"shares":2,"total":1123,"scraped":3,"pos":0,"neg":0,"sentiment":0.0},{"account":"PMA Core","type":"image","date":"15/04/2025","text":"سلطة النقد تطلق قناة \"PMACHAT\" الذكية للتواصل مع الجمهور أطلقت سلطة النقد قناة \"PMAChat\" التفاعلية، كمنصة رقمية مبتكرة تهدف إلى تعزيز التواصل مع الجمه","url":"https://www.facebook.com/permalink.php?story_fbid=1053807413459530&id=100064908421882","reactions":892,"comments":61,"shares":13,"total":966,"scraped":44,"pos":0,"neg":5,"sentiment":-0.114},{"account":"Banking Awareness","type":"image","date":"06/03/2025","text":"#حساب_الشمول_المالي حساب بنكي مجاني... ويمنحكم بطاقة صراف آلي #مجاناً لتفاصيل أكثر من خلال الرابط التالي: https://bit.ly/FI-BankAccount","url":"https://www.facebook.com/permalink.php?story_fbid=950408247296046&id=100069806386264","reactions":894,"comments":10,"shares":4,"total":908,"scraped":3,"pos":0,"neg":0,"sentiment":0.0},{"account":"PMA Core","type":"video","date":"15/03/2025","text":"باستخدام رقم موبايلك … بتدفع أثمان مشترياتك وبتحول لأي شخص…من خلال نطام iBURAQ بسرعة وسهولة… وبدون عمولات! #سلطة_النقد #iBURAQ #الدفع_الإلكتروني #دفع_","url":"https://www.facebook.com/permalink.php?story_fbid=1030059879167617&id=100064908421882","reactions":818,"comments":40,"shares":17,"total":875,"scraped":24,"pos":1,"neg":0,"sentiment":0.042}],"ig":[{"account":"PMA Core","type":"Video","date":"2024-08-08","caption":"معلوماتكم المصرفية سرية.... لا تشاركوها مع أحد","url":"https://www.instagram.com/p/C-ahlujO9K1/","likes":2413,"comments":17,"total":2430,"scraped":12,"pos":1,"neg":0,"sentiment":0.083},{"account":"PMA Core","type":"Image","date":"2025-04-22","caption":"البنوك لا تقوم بالتواصل معكم لطلب الإفصاح عن أي بيانات شخصية أو بيانات تتعلق بحساباتكم المصرفية أو أرقام سرية OTP/ CVV سواء عبر الهاتف أو الرسائل النص","url":"https://www.instagram.com/p/DIwtWPjtx9D/","likes":2207,"comments":0,"total":2207,"scraped":0,"pos":0,"neg":0,"sentiment":0},{"account":"Banking Awareness","type":"Image","date":"2021-06-23","caption":"كثير صرنا نسمع مصطلح #المحفظة_الالكترونية في #فلسطين .. \nماذا يعني هذا المصطلح؟ \n\nالمحفظة الإلكترونية: هي خدمة الكترونية تحول فيها النقود إلى أرصدة رق","url":"https://www.instagram.com/p/CQdPaG_jKtP/","likes":1862,"comments":13,"total":1875,"scraped":13,"pos":6,"neg":0,"sentiment":0.462},{"account":"Banking Awareness","type":"Video","date":"2022-07-07","caption":"بدك طريقة سهلة وسريعة وآمنة لتنجز حركات الدفع والشراء في مختلف المتاجر؟🤔\nاحضر الفيديو \n\n#بطاقة_الصراف_الآلي #بدون_كاش #دفع_الكتروني #المفتاح_الوطني #س","url":"https://www.instagram.com/p/Cfs2J-qogkU/","likes":101,"comments":991,"total":1092,"scraped":45,"pos":10,"neg":1,"sentiment":0.2},{"account":"PMA Core","type":"Image","date":"2025-04-17","caption":"معلوماتك المصرفية سرية، لا تشاركها مع أحد\n#الاحتيال_المالي\n#سلطةـالنقد","url":"https://www.instagram.com/p/DIiXPyUIGe1/","likes":819,"comments":1,"total":820,"scraped":1,"pos":0,"neg":0,"sentiment":0.0},{"account":"CYBW","type":"Video","date":"2023-05-09","caption":"#firstpicchallenge #GMW_2023 #تحدي_تطبيق_مصرفي #الأسبوع_المصرفي_للأطفال_والشباب #مصرفي","url":"https://www.instagram.com/p/CsBSOS1MiJ6/","likes":698,"comments":31,"total":729,"scraped":21,"pos":6,"neg":1,"sentiment":0.238},{"account":"PMA Core","type":"Video","date":"2024-08-20","caption":"كيف أتعامل في حال وقوعي ضحية احتيال مالي؟","url":"https://www.instagram.com/p/C-4RctyJ-31/","likes":556,"comments":1,"total":557,"scraped":1,"pos":0,"neg":0,"sentiment":0.0},{"account":"Monshati","type":"Image","date":"2021-12-27","caption":"حابين تتعرفوا على الشكل القانوني المناسب لعملكم؟\nتصفحوا تصفحوا الدليل الإرشادي الخاص بتسجيل المشاريع من خلال موقعنا https://monshati.ps/uploads/164000","url":"https://www.instagram.com/p/CX_CNzGONho/","likes":546,"comments":0,"total":546,"scraped":0,"pos":0,"neg":0,"sentiment":0},{"account":"Monshati","type":"Image","date":"2022-01-10","caption":"هل تبحثون عن استشارة وتمويل لمشروعكم؟ \nما عليكم إلا تحملوا تطبيق منشأتي على اجهزتكم وتستفيدوا من خدماتنا\nwww.monshati.ps/app \n#منشأتي","url":"https://www.instagram.com/p/CYi1OkrsP7u/","likes":453,"comments":1,"total":454,"scraped":1,"pos":0,"neg":0,"sentiment":0.0},{"account":"Monshati","type":"Image","date":"2022-01-09","caption":"تواجدكم في الساحة الإلكترونية، يُساعدكم في تسهيل التواصل بينكم وبين عملائكم\nزوروا منصة منشأتي\nwww.monshati.ps \nواحضروا التدريبات الخاصة بالتجارة الإلك","url":"https://www.instagram.com/p/CYhMQsYjn2u/","likes":441,"comments":0,"total":441,"scraped":0,"pos":0,"neg":0,"sentiment":0},{"account":"Banking Awareness","type":"Image","date":"2022-06-12","caption":"تعمل التعبئة والتغليف السليمة للمنتجات على زيادة بيع هذه المنتجات عن طريق تغليفها وتعبئتها بشكل محبب ومرغوب للعملاء، وتوفر فرص عمل للشباب كما أنها توف","url":"https://www.instagram.com/p/Ceswx1WI4gx/","likes":99,"comments":213,"total":312,"scraped":60,"pos":24,"neg":0,"sentiment":0.4},{"account":"PMA Core","type":"Video","date":"2024-09-09","caption":"خطوات التحويل والدفع من خلال نظام iBURAQ\nبإمكانكم الوصول لنظام iBURAQ من خلال أي تطبيق بنكي أو محفظة إلكترونية","url":"https://www.instagram.com/p/C_s8D_bJ1sZ/","likes":288,"comments":2,"total":290,"scraped":2,"pos":1,"neg":0,"sentiment":0.5},{"account":"Banking Awareness","type":"Image","date":"2022-11-21","caption":"فللها براحتك أسهل عليك وعلينا, وادفع باستخدام بطاقتك! 💳\n\nاستخدم بطاقة الصراف الآلي الصادة من أي بنك، وعلى أي نقطة بيع للدفع \n في محطات الوقود وكل المت","url":"https://www.instagram.com/p/ClNyr_utyKk/","likes":228,"comments":0,"total":228,"scraped":0,"pos":0,"neg":0,"sentiment":0},{"account":"PMA Core","type":"Image","date":"2025-04-18","caption":"حافظ على سرية معلوماتك المصرفية، ولا تشاركها مع أي جهة غير موثوقة \n#الاحتيال_المالي\n#سلطةـالنقد","url":"https://www.instagram.com/p/DImfvy2Sc0-/","likes":165,"comments":0,"total":165,"scraped":0,"pos":0,"neg":0,"sentiment":0},{"account":"Banking Awareness","type":"Video","date":"2023-06-05","caption":"بدكم..\nتودعوا أو تسحبوا نقود\nتحوّلوا أموال\nتشحنوا رصيد الموبايل\nتسددوا فواتير\nتتسوّقوا وتدفعوا أثمان المشتريات\nتشتروا بطاقات\nالمحافظ الإلكترونية.. سهّ","url":"https://www.instagram.com/p/CtG5KVUAN42/","likes":139,"comments":1,"total":140,"scraped":1,"pos":0,"neg":0,"sentiment":0.0}]};
+
+// State for active filters
+const cpState = {fb:{acct:'all',type:'all'}, ig:{acct:'all',type:'all'}};
+
+function sentimentBadge(pos, neg, total, score) {
+  if (!total || total === 0) return '';
+  const pct = ((pos/total)*100).toFixed(0);
+  if (score > 0.15) return `<span style="background:#dcfce7;color:#166534;font-size:0.65rem;padding:1px 6px;border-radius:3px;font-weight:700">↑ ${pct}% positive</span>`;
+  if (score < -0.05) return `<span style="background:#fee2e2;color:#991b1b;font-size:0.65rem;padding:1px 6px;border-radius:3px;font-weight:700">↓ mixed sentiment</span>`;
+  return `<span style="background:#f3f4f6;color:#374151;font-size:0.65rem;padding:1px 6px;border-radius:3px;font-weight:700">→ neutral</span>`;
+}
+
+function typePill(type, plat) {
+  const isVideo = type === 'video' || type === 'Video';
+  const bg = isVideo ? (plat==='fb'?'#0f2a4a':'#7c3aed') : (plat==='fb'?'#dbeafe':'#fce7f3');
+  const fg = isVideo ? 'white' : (plat==='fb'?'#1e40af':'#9d174d');
+  return `<span style="background:${bg};color:${fg};font-size:0.65rem;padding:1px 6px;border-radius:3px;font-weight:700">${type}</span>`;
+}
+
+function acctPill(acct) {
+  const colors = {'PMA Core':'#0f2a4a','Banking Awareness':'#1d9e75','CYBW':'#d97706','Monshati':'#c0394b'};
+  const bg = colors[acct] || '#6b7280';
+  return `<span style="background:${bg};color:white;font-size:0.65rem;padding:1px 6px;border-radius:3px;font-weight:700">${acct}</span>`;
+}
+
+function renderContentPosts(plat) {
+  const state = cpState[plat];
+  let posts = CP[plat];
+  if (state.acct !== 'all') posts = posts.filter(p => p.account === state.acct);
+  if (state.type !== 'all') posts = posts.filter(p => (p.type||'').toLowerCase() === state.type.toLowerCase());
+  
+  const container = document.getElementById(plat + '-content-posts');
+  if (!posts.length) {
+    container.innerHTML = '<p style="color:var(--muted);font-size:0.85rem;padding:1rem 0">No posts match the selected filters.</p>';
+    return;
+  }
+  
+  container.innerHTML = posts.map((p, i) => {
+    const isFb = plat === 'fb';
+    const eng = p.total;
+    const text = isFb ? (p.text||'') : (p.caption||'');
+    const engBreakdown = isFb
+      ? `❤️ ${(p.reactions||0).toLocaleString()} &nbsp;💬 ${(p.comments||0).toLocaleString()} &nbsp;🔁 ${(p.shares||0).toLocaleString()}`
+      : `❤️ ${(p.likes||0).toLocaleString()} &nbsp;💬 ${(p.comments||0).toLocaleString()}`;
+    const sentBadge = p.scraped > 0 ? sentimentBadge(p.pos, p.neg, p.scraped, p.sentiment) : '';
+    const hasSent = p.scraped > 0;
+    
+    return `<div class="tp" style="padding:0.9rem 0;border-bottom:1px solid var(--border)">
+      <div class="tp-rank" style="min-width:26px;font-size:0.72rem;color:var(--muted)">#${i+1}</div>
+      <div class="tp-eng" style="min-width:70px;font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--navy);line-height:1">${eng.toLocaleString()}</div>
+      <div style="flex:1">
+        <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.3rem">
+          ${acctPill(p.account)}
+          ${typePill(p.type, plat)}
+          <span style="font-size:0.7rem;color:var(--muted)">${p.date}</span>
+          ${sentBadge}
+          ${p.url ? `<a href="${p.url}" target="_blank" rel="noopener" style="font-size:0.68rem;color:var(--sky);text-decoration:none;margin-left:auto;flex-shrink:0;white-space:nowrap">View post ↗</a>` : ''}
+        </div>
+        <div style="font-size:0.85rem;color:var(--ink);direction:rtl;text-align:right;line-height:1.45;margin-bottom:0.3rem">${text.substring(0,140)}${text.length>140?'…':''}</div>
+        <div style="font-size:0.7rem;color:var(--muted)">${engBreakdown}${hasSent ? ` &nbsp;·&nbsp; 💬 ${p.scraped} comments analysed (${p.pos}+ / ${p.neg}-)` : ''}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterContentPosts(plat, acct, btn) {
+  cpState[plat].acct = acct;
+  const tabClass = plat === 'fb' ? 'cp-tab' : 'ig-cp-tab';
+  const platColor = plat === 'fb' ? '#1877f2' : '#e1306c';
+  document.querySelectorAll('.' + tabClass).forEach(b => {
+    b.style.background = 'white';
+    b.style.color = 'var(--muted)';
+    b.style.borderColor = 'var(--border)';
+  });
+  btn.style.background = platColor;
+  btn.style.color = 'white';
+  btn.style.borderColor = platColor;
+  renderContentPosts(plat);
+}
+
+function filterContentType(plat, type, btn) {
+  cpState[plat].type = type;
+  const tabClass = plat === 'fb' ? 'cp-type-tab' : 'ig-type-tab';
+  document.querySelectorAll('.' + tabClass).forEach(b => {
+    b.style.background = 'white';
+    b.style.color = 'var(--muted)';
+  });
+  btn.style.background = 'var(--ice)';
+  btn.style.color = 'var(--navy)';
+  renderContentPosts(plat);
+}
+
+// Initial render
+renderContentPosts('fb');
+renderContentPosts('ig');
+
 
 </script>
 </body>
